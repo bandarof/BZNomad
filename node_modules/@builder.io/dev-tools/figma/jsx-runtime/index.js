@@ -1,0 +1,7 @@
+export function jsx() {
+  return null;
+}
+
+export function jsxs() {
+  return null;
+}
