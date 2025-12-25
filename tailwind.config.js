@@ -108,6 +108,8 @@ module.exports = {
         slideInUp: 'slideInUp 0.8s ease-out',
         fadeIn: 'fadeIn 1s ease-out',
         glowPulse: 'glowPulse 3s ease-in-out infinite',
+        carousel: 'carousel 18s ease-in-out infinite',
+        carouselFade: 'carouselFade 18s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
