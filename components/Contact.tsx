@@ -14,55 +14,75 @@ export default function Contact() {
 
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     // Validate required fields
     if (!formData.name || !formData.email || !formData.departure || !formData.destination || !formData.startDate || !formData.endDate) {
       setError('Please fill in all required fields');
+      setLoading(false);
       return;
     }
 
-    // Create email body
-    const emailBody = `
-Name: ${formData.name}
-Email: ${formData.email}
-Phone: ${formData.phone || 'Not provided'}
+    try {
+      // Create FormData for Formspree submission
+      const formDataToSend = new FormData();
 
-Departure City: ${formData.departure}
-Destination: ${formData.destination}
-Travel Dates: ${formData.startDate} to ${formData.endDate}
+      // Add all form fields
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('departure', formData.departure);
+      formDataToSend.append('destination', formData.destination);
+      formDataToSend.append('startDate', formData.startDate);
+      formDataToSend.append('endDate', formData.endDate);
+      formDataToSend.append('message', formData.message);
 
-Message: ${formData.message || 'No message'}
-    `.trim();
+      // Formspree configuration
+      formDataToSend.append('_subject', `New Travel Inquiry from ${formData.name}`);
+      formDataToSend.append('_replyto', formData.email);
+      formDataToSend.append('_cc', formData.email); // This sends copy to submitter
+      formDataToSend.append('_next', 'https://bznomad.com/thank-you');
+      formDataToSend.append('_format', 'plain');
 
-    // Send email using FormSubmit
-    const emailSubject = `New Travel Inquiry from ${formData.name}`;
-    
-    // Using mailto as fallback (for better UX, you'd want a backend)
-    const mailtoLink = `mailto:eternal.r@asaptickets.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Try to submit via form action if available, otherwise use mailto
-    window.location.href = mailtoLink;
-
-    // Show success message
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        departure: '',
-        destination: '',
-        startDate: '',
-        endDate: '',
-        message: '',
+      // Submit to Formspree
+      const response = await fetch('https://formspree.io/f/xwveggld', {
+        method: 'POST',
+        body: formDataToSend,
+        headers: {
+          'Accept': 'application/json'
+        }
       });
-    }, 3000);
+
+      if (response.ok) {
+        setSubmitted(true);
+        // Reset form after successful submission
+        setTimeout(() => {
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            departure: '',
+            destination: '',
+            startDate: '',
+            endDate: '',
+            message: '',
+          });
+          setSubmitted(false);
+        }, 3000);
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Form submission failed');
+      }
+    } catch (err) {
+      setError(`Failed to submit form. Please try again or email us directly at eternal.r@asaptickets.com`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -123,9 +143,17 @@ Message: ${formData.message || 'No message'}
                 <p className="text-green-400 font-semibold">
                   Thank you! We'll be in touch shortly.
                 </p>
+                <p className="text-green-300 text-sm mt-2">
+                  A confirmation copy has been sent to your email.
+                </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form
+                onSubmit={handleSubmit}
+                action="https://formspree.io/f/xwveggld"
+                method="POST"
+                className="space-y-4"
+              >
                 {error && (
                   <div className="bg-red-950/50 border border-red-500/50 rounded-xl p-4 text-red-400 font-semibold">
                     {error}
@@ -252,11 +280,30 @@ Message: ${formData.message || 'No message'}
                   ></textarea>
                 </div>
 
+                {/* Hidden Formspree fields */}
+                <input type="hidden" name="_subject" value={`New Travel Inquiry from ${formData.name}`} />
+                <input type="hidden" name="_replyto" value={formData.email} />
+                <input type="hidden" name="_cc" value={formData.email} />
+                <input type="hidden" name="_next" value="https://bznomad.com/thank-you" />
+                <input type="hidden" name="_format" value="plain" />
+
                 <button
                   type="submit"
-                  className="w-full py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-dark-950 rounded-lg font-bold hover:shadow-glow-teal-lg transition-all duration-300 hover:scale-105 border border-teal-400/50"
+                  disabled={loading}
+                  className={`w-full py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-dark-950 rounded-lg font-bold hover:shadow-glow-teal-lg transition-all duration-300 border border-teal-400/50 ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:scale-105'
+                    }`}
                 >
-                  Send Message
+                  {loading ? (
+                    <span className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-dark-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : (
+                    'Send Message'
+                  )}
                 </button>
 
                 <p className="text-xs text-gray-400 text-center">
