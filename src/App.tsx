@@ -1,10 +1,21 @@
-import { BuilderComponent } from "@builder.io/react";
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import About from '../components/About';
+import Services from '../components/Services';
+import Destinations from '../components/Destinations';
+import Contact from '../components/Contact';
+import Footer from '../components/Footer';
 
 export default function App() {
   return (
-    <div>
-      <h1>Hello Builder</h1>
-      <BuilderComponent model="page" />
+    <div className="min-h-screen bg-white">
+      <Header />
+      <Hero />
+      <About />
+      <Services />
+      <Destinations />
+      <Contact />
+      <Footer />
     </div>
   );
 }
