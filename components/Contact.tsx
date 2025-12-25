@@ -1,6 +1,28 @@
 import { useState } from 'react';
 
 type TripType = 'one-way' | 'round-trip' | 'multi-city';
+type DateType = 'flexible' | 'fixed';
+
+interface CitySegment {
+  id: number;
+  departure: string;
+  destination: string;
+  dateType: DateType;
+  date: string;
+  flexFrom: string;
+  flexTo: string;
+}
+
+interface DateFlexibility {
+  departureType: DateType;
+  departureDate: string;
+  departureFlexFrom: string;
+  departureFlexTo: string;
+  returnType: DateType;
+  returnDate: string;
+  returnFlexFrom: string;
+  returnFlexTo: string;
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,14 +32,72 @@ export default function Contact() {
     tripType: 'round-trip' as TripType,
     departure: '',
     destination: '',
-    departureDate: '',
-    returnDate: '',
     message: '',
   });
+
+  const [dateFlexibility, setDateFlexibility] = useState<DateFlexibility>({
+    departureType: 'fixed',
+    departureDate: '',
+    departureFlexFrom: '',
+    departureFlexTo: '',
+    returnType: 'fixed',
+    returnDate: '',
+    returnFlexFrom: '',
+    returnFlexTo: '',
+  });
+
+  const [citySegments, setCitySegments] = useState<CitySegment[]>([
+    {
+      id: 1,
+      departure: '',
+      destination: '',
+      dateType: 'fixed',
+      date: '',
+      flexFrom: '',
+      flexTo: ''
+    }
+  ]);
 
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const addCitySegment = () => {
+    if (citySegments.length < 5) {
+      const newId = citySegments.length + 1;
+      setCitySegments([...citySegments, {
+        id: newId,
+        departure: '',
+        destination: '',
+        dateType: 'fixed',
+        date: '',
+        flexFrom: '',
+        flexTo: ''
+      }]);
+    }
+  };
+
+  const removeCitySegment = (id: number) => {
+    if (citySegments.length > 1) {
+      setCitySegments(citySegments.filter(segment => segment.id !== id));
+    }
+  };
+
+  const updateCitySegment = (id: number, field: keyof CitySegment, value: string) => {
+    setCitySegments(citySegments.map(segment =>
+      segment.id === id ? { ...segment, [field]: value } : segment
+    ));
+  };
+
+  const updateSegmentDateType = (id: number, dateType: DateType) => {
+    setCitySegments(citySegments.map(segment =>
+      segment.id === id ? { ...segment, dateType } : segment
+    ));
+  };
+
+  const updateDateFlexibility = (field: keyof DateFlexibility, value: string | DateType) => {
+    setDateFlexibility(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,36 +105,120 @@ export default function Contact() {
     setLoading(true);
 
     // Validate required fields
-    if (!formData.name || !formData.email || !formData.phone || !formData.departure || !formData.destination || !formData.departureDate) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.departure || !formData.destination) {
       setError('Please fill in all required fields');
       setLoading(false);
       return;
     }
 
-    // For round trips, require return date
-    if (formData.tripType === 'round-trip' && !formData.returnDate) {
-      setError('Please select a return date for round trips');
+    // Validate departure date based on type
+    if (dateFlexibility.departureType === 'fixed' && !dateFlexibility.departureDate) {
+      setError('Please select a departure date');
       setLoading(false);
       return;
+    }
+
+    if (dateFlexibility.departureType === 'flexible' && (!dateFlexibility.departureFlexFrom || !dateFlexibility.departureFlexTo)) {
+      setError('Please select a departure date range');
+      setLoading(false);
+      return;
+    }
+
+    // For round trips, validate return date
+    if (formData.tripType === 'round-trip') {
+      if (dateFlexibility.returnType === 'fixed' && !dateFlexibility.returnDate) {
+        setError('Please select a return date for round trips');
+        setLoading(false);
+        return;
+      }
+      if (dateFlexibility.returnType === 'flexible' && (!dateFlexibility.returnFlexFrom || !dateFlexibility.returnFlexTo)) {
+        setError('Please select a return date range');
+        setLoading(false);
+        return;
+      }
+    }
+
+    // For multi-city trips, validate all segments
+    if (formData.tripType === 'multi-city') {
+      for (const segment of citySegments) {
+        if (!segment.departure || !segment.destination) {
+          setError('Please fill in all departure and destination cities for each segment');
+          setLoading(false);
+          return;
+        }
+
+        if (segment.dateType === 'fixed' && !segment.date) {
+          setError('Please select a date for each segment');
+          setLoading(false);
+          return;
+        }
+
+        if (segment.dateType === 'flexible' && (!segment.flexFrom || !segment.flexTo)) {
+          setError('Please select a date range for each segment');
+          setLoading(false);
+          return;
+        }
+      }
     }
 
     try {
       // Create FormData for Formspree submission
       const formDataToSend = new FormData();
 
-      // Add all form fields
+      // Add all main form fields
       formDataToSend.append('name', formData.name);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('phone', formData.phone);
       formDataToSend.append('tripType', formData.tripType);
-      formDataToSend.append('departure', formData.departure);
-      formDataToSend.append('destination', formData.destination);
-      formDataToSend.append('departureDate', formData.departureDate);
-      formDataToSend.append('returnDate', formData.returnDate || 'Not applicable');
+
+      if (formData.tripType === 'multi-city') {
+        // For multi-city, add all segments
+        citySegments.forEach((segment, index) => {
+          formDataToSend.append(`segment${index + 1}_departure`, segment.departure);
+          formDataToSend.append(`segment${index + 1}_destination`, segment.destination);
+          formDataToSend.append(`segment${index + 1}_dateType`, segment.dateType);
+
+          if (segment.dateType === 'fixed') {
+            formDataToSend.append(`segment${index + 1}_date`, segment.date);
+          } else {
+            formDataToSend.append(`segment${index + 1}_flexFrom`, segment.flexFrom);
+            formDataToSend.append(`segment${index + 1}_flexTo`, segment.flexTo);
+          }
+        });
+      } else {
+        // For one-way/round trip
+        formDataToSend.append('departure', formData.departure);
+        formDataToSend.append('destination', formData.destination);
+
+        // Departure dates
+        formDataToSend.append('departureDateType', dateFlexibility.departureType);
+        if (dateFlexibility.departureType === 'fixed') {
+          formDataToSend.append('departureDate', dateFlexibility.departureDate);
+        } else {
+          formDataToSend.append('departureFlexFrom', dateFlexibility.departureFlexFrom);
+          formDataToSend.append('departureFlexTo', dateFlexibility.departureFlexTo);
+        }
+
+        // Return dates for round trips
+        if (formData.tripType === 'round-trip') {
+          formDataToSend.append('returnDateType', dateFlexibility.returnType);
+          if (dateFlexibility.returnType === 'fixed') {
+            formDataToSend.append('returnDate', dateFlexibility.returnDate);
+          } else {
+            formDataToSend.append('returnFlexFrom', dateFlexibility.returnFlexFrom);
+            formDataToSend.append('returnFlexTo', dateFlexibility.returnFlexTo);
+          }
+        }
+      }
+
       formDataToSend.append('message', formData.message);
 
       // Formspree configuration
-      formDataToSend.append('_subject', `New ${formData.tripType} Travel Inquiry from ${formData.name}`);
+      const subject = formData.tripType === 'multi-city'
+        ? `New Multi-City Trip Inquiry from ${formData.name} (${citySegments.length} segments)`
+        : `New ${formData.tripType} Travel Inquiry from ${formData.name}`;
+
+      formDataToSend.append('_subject', subject);
       formDataToSend.append('_replyto', formData.email);
       formDataToSend.append('_cc', formData.email);
       formDataToSend.append('_next', 'https://bznomad.com/thank-you');
@@ -80,10 +244,27 @@ export default function Contact() {
             tripType: 'round-trip',
             departure: '',
             destination: '',
-            departureDate: '',
-            returnDate: '',
             message: '',
           });
+          setDateFlexibility({
+            departureType: 'fixed',
+            departureDate: '',
+            departureFlexFrom: '',
+            departureFlexTo: '',
+            returnType: 'fixed',
+            returnDate: '',
+            returnFlexFrom: '',
+            returnFlexTo: '',
+          });
+          setCitySegments([{
+            id: 1,
+            departure: '',
+            destination: '',
+            dateType: 'fixed',
+            date: '',
+            flexFrom: '',
+            flexTo: ''
+          }]);
           setSubmitted(false);
         }, 3000);
       } else {
@@ -103,11 +284,22 @@ export default function Contact() {
   };
 
   const handleTripTypeChange = (tripType: TripType) => {
-    setFormData(prev => ({ ...prev, tripType }));
+    setFormData(prev => ({
+      ...prev,
+      tripType,
+    }));
 
-    // Clear return date if switching to one-way
-    if (tripType === 'one-way') {
-      setFormData(prev => ({ ...prev, returnDate: '' }));
+    // Reset to single segment when switching away from multi-city
+    if (tripType !== 'multi-city' && citySegments.length > 1) {
+      setCitySegments([{
+        id: 1,
+        departure: '',
+        destination: '',
+        dateType: 'fixed',
+        date: '',
+        flexFrom: '',
+        flexTo: ''
+      }]);
     }
   };
 
@@ -143,6 +335,89 @@ export default function Contact() {
     { value: 'round-trip', label: 'Round Trip', icon: '🔁' },
     { value: 'multi-city', label: 'Multi City', icon: '🗺️' },
   ];
+
+  const renderDateSelector = (
+    type: DateType,
+    setType: (type: DateType) => void,
+    fixedDate: string,
+    setFixedDate: (date: string) => void,
+    flexFrom: string,
+    setFlexFrom: (date: string) => void,
+    flexTo: string,
+    setFlexTo: (date: string) => void,
+    label: string,
+    isReturnDate?: boolean
+  ) => (
+    <div>
+      <label className="block text-gray-300 font-semibold mb-2">
+        {label} {!isReturnDate && <span className="text-teal-400">*</span>}
+      </label>
+
+      {/* Date Type Toggle */}
+      <div className="flex space-x-2 mb-3">
+        <button
+          type="button"
+          onClick={() => setType('fixed')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${type === 'fixed'
+              ? 'bg-teal-500 text-dark-950'
+              : 'bg-dark-700 text-gray-400 hover:bg-dark-600'
+            }`}
+        >
+          Fixed Date
+        </button>
+        <button
+          type="button"
+          onClick={() => setType('flexible')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${type === 'flexible'
+              ? 'bg-teal-500 text-dark-950'
+              : 'bg-dark-700 text-gray-400 hover:bg-dark-600'
+            }`}
+        >
+          Flexible Dates
+        </button>
+      </div>
+
+      {/* Date Inputs */}
+      {type === 'fixed' ? (
+        <input
+          type="date"
+          value={fixedDate}
+          onChange={(e) => setFixedDate(e.target.value)}
+          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+          min={new Date().toISOString().split('T')[0]}
+        />
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-gray-300 text-sm mb-1">Earliest Date</label>
+            <input
+              type="date"
+              value={flexFrom}
+              onChange={(e) => setFlexFrom(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
+              min={new Date().toISOString().split('T')[0]}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm mb-1">Latest Date</label>
+            <input
+              type="date"
+              value={flexTo}
+              onChange={(e) => setFlexTo(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
+              min={flexFrom || new Date().toISOString().split('T')[0]}
+            />
+          </div>
+        </div>
+      )}
+
+      {type === 'flexible' && (
+        <p className="text-xs text-gray-400 mt-1">
+          We'll find the best options within your preferred range
+        </p>
+      )}
+    </div>
+  );
 
   return (
     <section id="contact" className="py-20 px-6 bg-gradient-to-b from-dark-900 to-dark-950">
@@ -211,144 +486,237 @@ export default function Contact() {
                   <input type="hidden" name="tripType" value={formData.tripType} />
                 </div>
 
-                <div>
-                  <label className="block text-gray-300 font-semibold mb-2">
-                    Name <span className="text-teal-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                    placeholder="Your name"
-                  />
-                </div>
+                <div className="space-y-4">
+                  {/* Personal Information */}
+                  <div className="p-4 bg-dark-700/30 rounded-lg border border-dark-600">
+                    <h4 className="text-teal-300 font-semibold mb-3">Personal Information</h4>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-gray-300 font-semibold mb-2">
+                          Name <span className="text-teal-400">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                          placeholder="Your name"
+                        />
+                      </div>
 
-                <div>
-                  <label className="block text-gray-300 font-semibold mb-2">
-                    Email <span className="text-teal-400">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                    placeholder="your@email.com"
-                  />
-                </div>
+                      <div>
+                        <label className="block text-gray-300 font-semibold mb-2">
+                          Email <span className="text-teal-400">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                          placeholder="your@email.com"
+                        />
+                      </div>
 
-                <div>
-                  <label className="block text-gray-300 font-semibold mb-2">
-                    Phone <span className="text-teal-400">*</span>
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                    placeholder="+1 (555) 000-0000"
-                  />
-                </div>
+                      <div>
+                        <label className="block text-gray-300 font-semibold mb-2">
+                          Phone <span className="text-teal-400">*</span>
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                          placeholder="+1 (555) 000-0000"
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="block text-gray-300 font-semibold mb-2">
-                    Departure City <span className="text-teal-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="departure"
-                    value={formData.departure}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                    placeholder="e.g., New York, London"
-                  />
-                </div>
+                  {/* Trip Details - Dynamic based on trip type */}
+                  {formData.tripType === 'multi-city' ? (
+                    <div className="space-y-4">
+                      <div className="p-4 bg-dark-700/30 rounded-lg border border-dark-600">
+                        <div className="flex justify-between items-center mb-3">
+                          <h4 className="text-teal-300 font-semibold">Multi-City Itinerary</h4>
+                          <span className="text-xs text-gray-400">
+                            {citySegments.length} of 6 segments
+                          </span>
+                        </div>
 
-                <div>
-                  <label className="block text-gray-300 font-semibold mb-2">
-                    Destination City <span className="text-teal-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="destination"
-                    value={formData.destination}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                    placeholder="e.g., Bali, Lisbon, Tokyo"
-                  />
-                  <p className="text-xs text-gray-400 mt-1">
-                    Enter your destination city (e.g., Bali, Lisbon, Tokyo)
-                  </p>
-                </div>
+                        {/* Segments */}
+                        {citySegments.map((segment, index) => (
+                          <div key={segment.id} className={`mb-4 p-4 bg-dark-800/50 rounded-lg border ${index === 0 ? 'border-teal-400/30' : 'border-dark-700'}`}>
+                            <div className="flex justify-between items-center mb-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-teal-400 font-bold">{index + 1}</span>
+                                <span className="text-gray-300 font-medium">
+                                  {index === 0 ? 'First Leg' : 'Next Leg'}
+                                </span>
+                              </div>
+                              {index > 0 && (
+                                <button
+                                  type="button"
+                                  onClick={() => removeCitySegment(segment.id)}
+                                  className="text-red-400 hover:text-red-300 text-sm font-medium"
+                                >
+                                  Remove
+                                </button>
+                              )}
+                            </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-3">
+                              <div className="grid md:grid-cols-2 gap-3">
+                                <div>
+                                  <label className="block text-gray-300 text-sm mb-1">
+                                    Departure City <span className="text-teal-400">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={segment.departure}
+                                    onChange={(e) => updateCitySegment(segment.id, 'departure', e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
+                                    placeholder={index === 0 ? "Starting city" : "Departure city"}
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-gray-300 text-sm mb-1">
+                                    Destination City <span className="text-teal-400">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    value={segment.destination}
+                                    onChange={(e) => updateCitySegment(segment.id, 'destination', e.target.value)}
+                                    required
+                                    className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
+                                    placeholder="Destination city"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Segment Date Selector */}
+                              {renderDateSelector(
+                                segment.dateType,
+                                (type) => updateSegmentDateType(segment.id, type),
+                                segment.date,
+                                (date) => updateCitySegment(segment.id, 'date', date),
+                                segment.flexFrom,
+                                (date) => updateCitySegment(segment.id, 'flexFrom', date),
+                                segment.flexTo,
+                                (date) => updateCitySegment(segment.id, 'flexTo', date),
+                                `Departure Date for ${index === 0 ? 'First Leg' : `Leg ${index + 1}`}`
+                              )}
+                            </div>
+                          </div>
+                        ))}
+
+                        {/* Add More Segments Button */}
+                        {citySegments.length < 6 && (
+                          <button
+                            type="button"
+                            onClick={addCitySegment}
+                            className="w-full py-2 bg-dark-700/50 hover:bg-dark-700 border border-dashed border-dark-600 hover:border-teal-400/50 rounded-lg text-gray-400 hover:text-teal-300 transition-all duration-300"
+                          >
+                            <div className="flex items-center justify-center gap-2">
+                              <span className="text-lg">+</span>
+                              <span>Add Another City</span>
+                              <span className="text-xs text-gray-500">({6 - citySegments.length} remaining)</span>
+                            </div>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    /* One-Way / Round Trip Layout */
+                    <div className="p-4 bg-dark-700/30 rounded-lg border border-dark-600">
+                      <h4 className="text-teal-300 font-semibold mb-3">Trip Details</h4>
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-gray-300 font-semibold mb-2">
+                            Departure City <span className="text-teal-400">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name="departure"
+                            value={formData.departure}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                            placeholder="e.g., New York, London"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-gray-300 font-semibold mb-2">
+                            Destination City <span className="text-teal-400">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            name="destination"
+                            value={formData.destination}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                            placeholder="e.g., Bali, Lisbon, Tokyo"
+                          />
+                        </div>
+
+                        {/* Departure Date Selector */}
+                        {renderDateSelector(
+                          dateFlexibility.departureType,
+                          (type) => updateDateFlexibility('departureType', type),
+                          dateFlexibility.departureDate,
+                          (date) => updateDateFlexibility('departureDate', date),
+                          dateFlexibility.departureFlexFrom,
+                          (date) => updateDateFlexibility('departureFlexFrom', date),
+                          dateFlexibility.departureFlexTo,
+                          (date) => updateDateFlexibility('departureFlexTo', date),
+                          'Departure Date'
+                        )}
+
+                        {/* Return Date Selector (only for round trips) */}
+                        {formData.tripType === 'round-trip' && renderDateSelector(
+                          dateFlexibility.returnType,
+                          (type) => updateDateFlexibility('returnType', type),
+                          dateFlexibility.returnDate,
+                          (date) => updateDateFlexibility('returnDate', date),
+                          dateFlexibility.returnFlexFrom,
+                          (date) => updateDateFlexibility('returnFlexFrom', date),
+                          dateFlexibility.returnFlexTo,
+                          (date) => updateDateFlexibility('returnFlexTo', date),
+                          'Return Date',
+                          true
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Message */}
                   <div>
-                    <label className="block text-gray-300 font-semibold mb-2">
-                      Departure Date <span className="text-teal-400">*</span>
-                    </label>
-                    <input
-                      type="date"
-                      name="departureDate"
-                      value={formData.departureDate}
+                    <label className="block text-gray-300 font-semibold mb-2">Additional Details</label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                      min={new Date().toISOString().split('T')[0]}
-                    />
+                      rows={4}
+                      className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all resize-none glow-border"
+                      placeholder="Tell us about your travel preferences, accommodation needs, budget, or any special requests..."
+                    ></textarea>
                   </div>
-                  <div>
-                    <label className="block text-gray-300 font-semibold mb-2">
-                      Return Date {formData.tripType === 'round-trip' && <span className="text-teal-400">*</span>}
-                    </label>
-                    <input
-                      type="date"
-                      name="returnDate"
-                      value={formData.returnDate}
-                      onChange={handleChange}
-                      required={formData.tripType === 'round-trip'}
-                      disabled={formData.tripType === 'one-way'}
-                      className={`w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border ${formData.tripType === 'one-way' ? 'opacity-50 cursor-not-allowed bg-dark-700/30' : ''
-                        }`}
-                      min={formData.departureDate || new Date().toISOString().split('T')[0]}
-                    />
-                    {formData.tripType === 'one-way' && (
-                      <p className="text-xs text-gray-400 mt-1">Not required for one-way trips</p>
-                    )}
-                  </div>
-                </div>
-
-                {formData.tripType === 'multi-city' && (
-                  <div className="mt-4 p-4 bg-dark-700/30 rounded-lg border border-dark-600">
-                    <p className="text-teal-300 font-semibold mb-2">Multi-City Trip Note</p>
-                    <p className="text-sm text-gray-400">
-                      For multi-city itineraries, please describe your route and preferred stops in the message below.
-                      We'll contact you to create a detailed custom itinerary.
-                    </p>
-                  </div>
-                )}
-
-                <div>
-                  <label className="block text-gray-300 font-semibold mb-2">Message</label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all resize-none glow-border"
-                    placeholder="Tell us about your travel plans, preferences, or any special requests..."
-                  ></textarea>
                 </div>
 
                 {/* Hidden Formspree fields */}
-                <input type="hidden" name="_subject" value={`New ${formData.tripType} Travel Inquiry from ${formData.name}`} />
+                <input type="hidden" name="_subject" value={
+                  formData.tripType === 'multi-city'
+                    ? `New Multi-City Trip Inquiry from ${formData.name} (${citySegments.length} segments)`
+                    : `New ${formData.tripType} Travel Inquiry from ${formData.name}`
+                } />
                 <input type="hidden" name="_replyto" value={formData.email} />
                 <input type="hidden" name="_cc" value={formData.email} />
                 <input type="hidden" name="_next" value="https://bznomad.com/thank-you" />
@@ -380,7 +748,7 @@ export default function Contact() {
             )}
           </div>
 
-          {/* Contact info */}
+          {/* Right Side Content */}
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-bold text-gray-100 mb-6">Contact Information</h3>
@@ -431,25 +799,70 @@ export default function Contact() {
                   <span className="text-teal-400">➡️</span>
                   <div>
                     <p className="font-semibold text-teal-300">One Way</p>
-                    <p>Single journey to your destination</p>
+                    <p className="text-gray-400">Single journey to your destination</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-teal-400">🔁</span>
                   <div>
                     <p className="font-semibold text-teal-300">Round Trip</p>
-                    <p>Return to your original departure city</p>
+                    <p className="text-gray-400">Return to your original departure city</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-teal-400">🗺️</span>
                   <div>
                     <p className="font-semibold text-teal-300">Multi City</p>
-                    <p>Visit multiple destinations in one trip</p>
+                    <p className="text-gray-400">Visit multiple destinations (up to 6 cities)</p>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Date Flexibility Info */}
+            <div className="bg-teal-900/20 border border-teal-400/30 backdrop-blur rounded-2xl p-6 glow-border-teal">
+              <h4 className="text-teal-300 font-bold mb-3">Date Flexibility</h4>
+              <div className="space-y-3 text-sm text-teal-100/80">
+                <div className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-0.5">📅</span>
+                  <div>
+                    <p className="font-medium text-teal-300">Fixed Dates</p>
+                    <p className="text-teal-100/70">Best for specific travel plans with set dates</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-teal-400 mt-0.5">🔄</span>
+                  <div>
+                    <p className="font-medium text-teal-300">Flexible Dates</p>
+                    <p className="text-teal-100/70">Get better prices by allowing date range searches</p>
+                  </div>
+                </div>
+                <div className="text-xs text-teal-200/60 mt-2">
+                  <p>Tip: Flexible dates often save 15-30% on flights</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Multi-City Tips (only shown for multi-city) */}
+            {formData.tripType === 'multi-city' && (
+              <div className="bg-dark-800/60 border border-teal-400/30 backdrop-blur rounded-2xl p-6 glow-border">
+                <h4 className="text-teal-300 font-bold mb-3">Multi-City Planning</h4>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-400 mt-0.5">✓</span>
+                    <span>Use date ranges to find optimal connections</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-400 mt-0.5">✓</span>
+                    <span>Allow 2-4 weeks between distant cities</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-400 mt-0.5">✓</span>
+                    <span>Consider seasonal weather patterns</span>
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
