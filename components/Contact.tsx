@@ -1,14 +1,17 @@
 import { useState } from 'react';
 
+type TripType = 'one-way' | 'round-trip' | 'multi-city';
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    tripType: 'round-trip' as TripType,
     departure: '',
     destination: '',
-    startDate: '',
-    endDate: '',
+    departureDate: '',
+    returnDate: '',
     message: '',
   });
 
@@ -22,8 +25,15 @@ export default function Contact() {
     setLoading(true);
 
     // Validate required fields
-    if (!formData.name || !formData.email || !formData.departure || !formData.destination || !formData.startDate || !formData.endDate) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.departure || !formData.destination || !formData.departureDate) {
       setError('Please fill in all required fields');
+      setLoading(false);
+      return;
+    }
+
+    // For round trips, require return date
+    if (formData.tripType === 'round-trip' && !formData.returnDate) {
+      setError('Please select a return date for round trips');
       setLoading(false);
       return;
     }
@@ -36,16 +46,17 @@ export default function Contact() {
       formDataToSend.append('name', formData.name);
       formDataToSend.append('email', formData.email);
       formDataToSend.append('phone', formData.phone);
+      formDataToSend.append('tripType', formData.tripType);
       formDataToSend.append('departure', formData.departure);
       formDataToSend.append('destination', formData.destination);
-      formDataToSend.append('startDate', formData.startDate);
-      formDataToSend.append('endDate', formData.endDate);
+      formDataToSend.append('departureDate', formData.departureDate);
+      formDataToSend.append('returnDate', formData.returnDate || 'Not applicable');
       formDataToSend.append('message', formData.message);
 
       // Formspree configuration
-      formDataToSend.append('_subject', `New Travel Inquiry from ${formData.name}`);
+      formDataToSend.append('_subject', `New ${formData.tripType} Travel Inquiry from ${formData.name}`);
       formDataToSend.append('_replyto', formData.email);
-      formDataToSend.append('_cc', formData.email); // This sends copy to submitter
+      formDataToSend.append('_cc', formData.email);
       formDataToSend.append('_next', 'https://bznomad.com/thank-you');
       formDataToSend.append('_format', 'plain');
 
@@ -66,10 +77,11 @@ export default function Contact() {
             name: '',
             email: '',
             phone: '',
+            tripType: 'round-trip',
             departure: '',
             destination: '',
-            startDate: '',
-            endDate: '',
+            departureDate: '',
+            returnDate: '',
             message: '',
           });
           setSubmitted(false);
@@ -88,6 +100,15 @@ export default function Contact() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleTripTypeChange = (tripType: TripType) => {
+    setFormData(prev => ({ ...prev, tripType }));
+
+    // Clear return date if switching to one-way
+    if (tripType === 'one-way') {
+      setFormData(prev => ({ ...prev, returnDate: '' }));
+    }
   };
 
   const contactInfo = [
@@ -115,6 +136,12 @@ export default function Contact() {
       value: 'bznomad.com',
       link: 'https://bznomad.com',
     },
+  ];
+
+  const tripTypes = [
+    { value: 'one-way', label: 'One Way', icon: '➡️' },
+    { value: 'round-trip', label: 'Round Trip', icon: '🔁' },
+    { value: 'multi-city', label: 'Multi City', icon: '🗺️' },
   ];
 
   return (
@@ -160,6 +187,30 @@ export default function Contact() {
                   </div>
                 )}
 
+                {/* Trip Type Selection */}
+                <div>
+                  <label className="block text-gray-300 font-semibold mb-2">
+                    Trip Type <span className="text-teal-400">*</span>
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {tripTypes.map((trip) => (
+                      <button
+                        key={trip.value}
+                        type="button"
+                        onClick={() => handleTripTypeChange(trip.value as TripType)}
+                        className={`p-3 rounded-lg border transition-all duration-300 ${formData.tripType === trip.value
+                            ? 'bg-teal-500/20 border-teal-400 text-teal-300 shadow-glow-teal'
+                            : 'bg-dark-700/50 border-dark-600 text-gray-400 hover:border-teal-400/50 hover:text-gray-300'
+                          }`}
+                      >
+                        <div className="text-lg mb-1">{trip.icon}</div>
+                        <div className="text-sm font-medium">{trip.label}</div>
+                      </button>
+                    ))}
+                  </div>
+                  <input type="hidden" name="tripType" value={formData.tripType} />
+                </div>
+
                 <div>
                   <label className="block text-gray-300 font-semibold mb-2">
                     Name <span className="text-teal-400">*</span>
@@ -191,12 +242,15 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 font-semibold mb-2">Phone</label>
+                  <label className="block text-gray-300 font-semibold mb-2">
+                    Phone <span className="text-teal-400">*</span>
+                  </label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    required
                     className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                     placeholder="+1 (555) 000-0000"
                   />
@@ -219,54 +273,67 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-gray-300 font-semibold mb-2">
-                    Destination <span className="text-teal-400">*</span>
+                    Destination City <span className="text-teal-400">*</span>
                   </label>
-                  <select
+                  <input
+                    type="text"
                     name="destination"
                     value={formData.destination}
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                  >
-                    <option value="">Select a destination...</option>
-                    <option value="bali">Bali, Indonesia</option>
-                    <option value="lisbon">Lisbon, Portugal</option>
-                    <option value="chiang-mai">Chiang Mai, Thailand</option>
-                    <option value="mexico-city">Mexico City, Mexico</option>
-                    <option value="barcelona">Barcelona, Spain</option>
-                    <option value="medellin">Medellín, Colombia</option>
-                    <option value="other">Other</option>
-                  </select>
+                    placeholder="e.g., Bali, Lisbon, Tokyo"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Enter your destination city (e.g., Bali, Lisbon, Tokyo)
+                  </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-gray-300 font-semibold mb-2">
-                      Start Date <span className="text-teal-400">*</span>
+                      Departure Date <span className="text-teal-400">*</span>
                     </label>
                     <input
                       type="date"
-                      name="startDate"
-                      value={formData.startDate}
+                      name="departureDate"
+                      value={formData.departureDate}
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                      min={new Date().toISOString().split('T')[0]}
                     />
                   </div>
                   <div>
                     <label className="block text-gray-300 font-semibold mb-2">
-                      End Date <span className="text-teal-400">*</span>
+                      Return Date {formData.tripType === 'round-trip' && <span className="text-teal-400">*</span>}
                     </label>
                     <input
                       type="date"
-                      name="endDate"
-                      value={formData.endDate}
+                      name="returnDate"
+                      value={formData.returnDate}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                      required={formData.tripType === 'round-trip'}
+                      disabled={formData.tripType === 'one-way'}
+                      className={`w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border ${formData.tripType === 'one-way' ? 'opacity-50 cursor-not-allowed bg-dark-700/30' : ''
+                        }`}
+                      min={formData.departureDate || new Date().toISOString().split('T')[0]}
                     />
+                    {formData.tripType === 'one-way' && (
+                      <p className="text-xs text-gray-400 mt-1">Not required for one-way trips</p>
+                    )}
                   </div>
                 </div>
+
+                {formData.tripType === 'multi-city' && (
+                  <div className="mt-4 p-4 bg-dark-700/30 rounded-lg border border-dark-600">
+                    <p className="text-teal-300 font-semibold mb-2">Multi-City Trip Note</p>
+                    <p className="text-sm text-gray-400">
+                      For multi-city itineraries, please describe your route and preferred stops in the message below.
+                      We'll contact you to create a detailed custom itinerary.
+                    </p>
+                  </div>
+                )}
 
                 <div>
                   <label className="block text-gray-300 font-semibold mb-2">Message</label>
@@ -276,12 +343,12 @@ export default function Contact() {
                     onChange={handleChange}
                     rows={4}
                     className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all resize-none glow-border"
-                    placeholder="Tell us about your travel plans..."
+                    placeholder="Tell us about your travel plans, preferences, or any special requests..."
                   ></textarea>
                 </div>
 
                 {/* Hidden Formspree fields */}
-                <input type="hidden" name="_subject" value={`New Travel Inquiry from ${formData.name}`} />
+                <input type="hidden" name="_subject" value={`New ${formData.tripType} Travel Inquiry from ${formData.name}`} />
                 <input type="hidden" name="_replyto" value={formData.email} />
                 <input type="hidden" name="_cc" value={formData.email} />
                 <input type="hidden" name="_next" value="https://bznomad.com/thank-you" />
@@ -302,7 +369,7 @@ export default function Contact() {
                       Sending...
                     </span>
                   ) : (
-                    'Send Message'
+                    `Get ${formData.tripType === 'one-way' ? 'One-Way' : formData.tripType === 'round-trip' ? 'Round-Trip' : 'Multi-City'} Quote`
                   )}
                 </button>
 
@@ -353,6 +420,34 @@ export default function Contact() {
                   <br />
                   Yes, we recommend and arrange travel insurance
                 </p>
+              </div>
+            </div>
+
+            {/* Trip Type Info */}
+            <div className="bg-dark-800/60 backdrop-blur rounded-2xl p-8 glow-border-lg">
+              <h3 className="text-xl font-bold text-gray-100 mb-4">Trip Types</h3>
+              <div className="space-y-3 text-sm text-gray-300">
+                <div className="flex items-start gap-3">
+                  <span className="text-teal-400">➡️</span>
+                  <div>
+                    <p className="font-semibold text-teal-300">One Way</p>
+                    <p>Single journey to your destination</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-teal-400">🔁</span>
+                  <div>
+                    <p className="font-semibold text-teal-300">Round Trip</p>
+                    <p>Return to your original departure city</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-teal-400">🗺️</span>
+                  <div>
+                    <p className="font-semibold text-teal-300">Multi City</p>
+                    <p>Visit multiple destinations in one trip</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
