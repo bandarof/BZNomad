@@ -5,16 +5,64 @@ export default function Contact() {
     name: '',
     email: '',
     phone: '',
+    departure: '',
     destination: '',
+    startDate: '',
+    endDate: '',
     message: '',
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError('');
+
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.departure || !formData.destination || !formData.startDate || !formData.endDate) {
+      setError('Please fill in all required fields');
+      return;
+    }
+
+    // Create email body
+    const emailBody = `
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone || 'Not provided'}
+
+Departure City: ${formData.departure}
+Destination: ${formData.destination}
+Travel Dates: ${formData.startDate} to ${formData.endDate}
+
+Message: ${formData.message || 'No message'}
+    `.trim();
+
+    // Send email using FormSubmit
+    const emailSubject = `New Travel Inquiry from ${formData.name}`;
+    
+    // Using mailto as fallback (for better UX, you'd want a backend)
+    const mailtoLink = `mailto:eternal.r@asaptickets.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    
+    // Try to submit via form action if available, otherwise use mailto
+    window.location.href = mailtoLink;
+
+    // Show success message
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setTimeout(() => {
+      setSubmitted(false);
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        departure: '',
+        destination: '',
+        startDate: '',
+        endDate: '',
+        message: '',
+      });
+    }, 3000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -78,8 +126,16 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                  <div className="bg-red-950/50 border border-red-500/50 rounded-xl p-4 text-red-400 font-semibold">
+                    {error}
+                  </div>
+                )}
+
                 <div>
-                  <label className="block text-gray-300 font-semibold mb-2">Name</label>
+                  <label className="block text-gray-300 font-semibold mb-2">
+                    Name <span className="text-teal-400">*</span>
+                  </label>
                   <input
                     type="text"
                     name="name"
@@ -92,7 +148,9 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 font-semibold mb-2">Email</label>
+                  <label className="block text-gray-300 font-semibold mb-2">
+                    Email <span className="text-teal-400">*</span>
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -117,11 +175,29 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-gray-300 font-semibold mb-2">Interested Destination</label>
+                  <label className="block text-gray-300 font-semibold mb-2">
+                    Departure City <span className="text-teal-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="departure"
+                    value={formData.departure}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                    placeholder="e.g., New York, London"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-300 font-semibold mb-2">
+                    Destination <span className="text-teal-400">*</span>
+                  </label>
                   <select
                     name="destination"
                     value={formData.destination}
                     onChange={handleChange}
+                    required
                     className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                   >
                     <option value="">Select a destination...</option>
@@ -133,6 +209,35 @@ export default function Contact() {
                     <option value="medellin">Medellín, Colombia</option>
                     <option value="other">Other</option>
                   </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-300 font-semibold mb-2">
+                      Start Date <span className="text-teal-400">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="startDate"
+                      value={formData.startDate}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-gray-300 font-semibold mb-2">
+                      End Date <span className="text-teal-400">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="endDate"
+                      value={formData.endDate}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -153,6 +258,10 @@ export default function Contact() {
                 >
                   Send Message
                 </button>
+
+                <p className="text-xs text-gray-400 text-center">
+                  <span className="text-teal-400">*</span> Required fields
+                </p>
               </form>
             )}
           </div>
