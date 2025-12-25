@@ -79,12 +79,25 @@ module.exports = {
           'to': { opacity: '1' },
         },
         glowPulse: {
-          '0%, 100%': { 
-            boxShadow: '0 0 20px rgba(43, 168, 192, 0.5), 0 0 40px rgba(43, 168, 192, 0.3), inset 0 0 20px rgba(43, 168, 192, 0.05)' 
+          '0%, 100%': {
+            boxShadow: '0 0 20px rgba(43, 168, 192, 0.5), 0 0 40px rgba(43, 168, 192, 0.3), inset 0 0 20px rgba(43, 168, 192, 0.05)'
           },
-          '50%': { 
-            boxShadow: '0 0 30px rgba(43, 168, 192, 0.7), 0 0 60px rgba(43, 168, 192, 0.5), inset 0 0 30px rgba(43, 168, 192, 0.1)' 
+          '50%': {
+            boxShadow: '0 0 30px rgba(43, 168, 192, 0.7), 0 0 60px rgba(43, 168, 192, 0.5), inset 0 0 30px rgba(43, 168, 192, 0.1)'
           },
+        },
+        carousel: {
+          '0%': { transform: 'translateX(0%)' },
+          '16.66%': { transform: 'translateX(0%)' },
+          '33.32%': { transform: 'translateX(-100%)' },
+          '50%': { transform: 'translateX(-100%)' },
+          '66.66%': { transform: 'translateX(-200%)' },
+          '83.32%': { transform: 'translateX(-200%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
+        carouselFade: {
+          '0%, 16.66%': { opacity: '1' },
+          '25%, 100%': { opacity: '0' },
         },
       },
       animation: {
