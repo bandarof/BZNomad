@@ -1,8 +1,6 @@
-[00:00:01.579] Server  LOG     ✓ Ready in 1327ms
-[00:00:04.689] Server  LOG     ○ Compiling /_not-found ...
-[00:00:05.709] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:19.140] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:00:19.601] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:19.730] Browser ERROR   uncaughtError: Error: Fetching content failed, expected apiKey to be defined instead got: null
-[00:00:22.978] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:23.098] Browser ERROR   uncaughtError: Error: Fetching content failed, expected apiKey to be defined instead got: null
+[00:00:01.906] Server  LOG     ✓ Ready in 1655ms
+[00:00:01.951] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:00:01.997] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:00:04.786] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:00:05.399] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:10.258] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

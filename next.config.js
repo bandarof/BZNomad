@@ -5,14 +5,17 @@ const nextConfig = {
       {
         source: '/:path*',
         headers: [
-          { 
-            key: 'Access-Control-Allow-Origin', 
-            value: '*' 
-          },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
         ],
       },
     ];
   },
 }
 
-module.exports = nextConfig;
+// Only add dev tools if package is installed
+try {
+  const { withDevTools } = require('@builder.io/dev-tools/next');
+  module.exports = withDevTools(nextConfig);
+} catch {
+  module.exports = nextConfig;
+}
