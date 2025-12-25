@@ -1,1 +1,4 @@
-[00:00:01.689] Server  LOG     ✓ Ready in 1441ms
+[00:00:01.674] Server  LOG     ✓ Ready in 1440ms
+[00:00:10.214] Server  LOG     ○ Compiling / ...
+[00:00:11.947] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:12.089] Browser ERROR   uncaughtError: Error: Fetching content failed, expected apiKey to be defined instead got: null
