@@ -58,13 +58,15 @@ export default function About() {
 
           {/* Right side - Founder Photo and Stats */}
           <div className="animate-slideInDown space-y-6">
-            {/* Founder Photo */}
-            <div className="rounded-3xl overflow-hidden glow-border-lg shadow-2xl shadow-teal-500/20">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=600"
-                alt="Bander Radein - Founder of BZNomad"
-                className="w-full h-96 object-cover hover:scale-105 transition-transform duration-300"
-              />
+            {/* Founder Profile Photo */}
+            <div className="flex justify-center mb-4">
+              <div className="w-40 h-40 rounded-full overflow-hidden glow-border-lg shadow-2xl shadow-teal-500/30 border-4 border-teal-500/50">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=300"
+                  alt="Bander Radein - Founder of BZNomad"
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                />
+              </div>
             </div>
 
             {/* Stats Grid */}
