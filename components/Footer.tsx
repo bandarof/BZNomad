@@ -18,7 +18,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-black text-white pt-20 pb-8">
+    <footer className="bg-gradient-to-b from-dark-900 to-dark-950 text-gray-300 pt-20 pb-8 border-t border-glow">
       <div className="max-w-6xl mx-auto px-6">
         {/* Top section */}
         <div className="grid md:grid-cols-4 gap-12 mb-16">
@@ -35,7 +35,7 @@ export default function Footer() {
                 <a
                   key={item.name}
                   href="#"
-                  className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center hover:bg-teal-500 transition-colors duration-300 text-lg"
+                  className="w-10 h-10 bg-teal-600/50 rounded-full flex items-center justify-center hover:bg-teal-500 transition-all duration-300 text-lg glow-border"
                   title={item.name}
                 >
                   {item.emoji}
@@ -78,13 +78,13 @@ export default function Footer() {
             <div className="space-y-2 text-gray-400 text-sm">
               <p>
                 <span className="block font-semibold text-teal-400">Phone</span>
-                <a href="tel:+18884497849" className="hover:text-teal-400 transition-colors">
+                <a href="tel:+18884497849" className="hover:text-teal-300 transition-colors">
                   +1 888 449 7849
                 </a>
               </p>
               <p>
                 <span className="block font-semibold text-teal-400 mt-3">Email</span>
-                <a href="mailto:eternal.r@asaptickets.com" className="hover:text-teal-400 transition-colors">
+                <a href="mailto:eternal.r@asaptickets.com" className="hover:text-teal-300 transition-colors">
                   eternal.r@asaptickets.com
                 </a>
               </p>
@@ -97,10 +97,10 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-800 my-12"></div>
+        <div className="border-t border-glow my-12"></div>
 
         {/* Bottom section */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
+        <div className="flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
           <p>
             &copy; {currentYear} BZNomad. All rights reserved. | Founded by Bander Radein
           </p>
@@ -112,7 +112,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom branding */}
-        <div className="text-center mt-8 pt-8 border-t border-gray-800 text-xs text-gray-500">
+        <div className="text-center mt-8 pt-8 border-t border-glow text-xs text-gray-600">
           <p>
             Affiliated with <span className="text-teal-400 font-semibold">Dreamport</span> and{' '}
             <span className="text-teal-400 font-semibold">AsapTickets</span>

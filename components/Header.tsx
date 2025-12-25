@@ -13,7 +13,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md shadow-lg z-50">
+    <header className="fixed top-0 w-full bg-dark-950/95 backdrop-blur-md border-b border-glow z-50 shadow-glow-teal">
       <nav className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <AnimatedLogo />
 
@@ -23,7 +23,7 @@ export default function Header() {
             <li key={item.label}>
               <a
                 href={item.href}
-                className="text-gray-700 font-medium hover:text-teal-600 transition-colors duration-300"
+                className="text-gray-300 font-medium hover:text-teal-400 transition-colors duration-300"
               >
                 {item.label}
               </a>
@@ -34,7 +34,7 @@ export default function Header() {
         {/* CTA Button */}
         <a
           href="#contact"
-          className="hidden md:inline-block px-6 py-2 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-full font-semibold hover:shadow-lg hover:shadow-teal-500/50 transition-all duration-300 hover:scale-105"
+          className="hidden md:inline-block px-6 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-dark-950 rounded-full font-semibold hover:shadow-glow-teal-lg transition-all duration-300 hover:scale-105 border border-teal-400/50"
         >
           Get Started
         </a>
@@ -42,7 +42,7 @@ export default function Header() {
         {/* Mobile menu button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-teal-600 font-bold text-2xl"
+          className="md:hidden text-teal-400 font-bold text-2xl hover:text-teal-300 transition-colors"
         >
           ☰
         </button>
@@ -50,13 +50,13 @@ export default function Header() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 animate-slideInDown">
+        <div className="md:hidden bg-dark-900 border-t border-glow animate-slideInDown">
           <ul className="flex flex-col p-4 gap-4">
             {navItems.map((item) => (
               <li key={item.label}>
                 <a
                   href={item.href}
-                  className="text-gray-700 font-medium hover:text-teal-600 transition-colors duration-300 block"
+                  className="text-gray-300 font-medium hover:text-teal-400 transition-colors duration-300 block"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
@@ -65,7 +65,7 @@ export default function Header() {
             ))}
             <a
               href="#contact"
-              className="px-6 py-2 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-full font-semibold text-center"
+              className="px-6 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-dark-950 rounded-full font-semibold text-center border border-teal-400/50"
               onClick={() => setIsMenuOpen(false)}
             >
               Get Started

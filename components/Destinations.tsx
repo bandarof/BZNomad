@@ -45,16 +45,16 @@ export default function Destinations() {
   ];
 
   return (
-    <section id="destinations" className="py-20 px-6 bg-gradient-to-b from-white to-gray-50">
+    <section id="destinations" className="py-20 px-6 bg-gradient-to-b from-dark-950 to-dark-900">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-4">
+          <span className="inline-block px-4 py-2 bg-dark-800 text-teal-400 rounded-full text-sm font-semibold mb-4 border border-glow">
             Popular Destinations
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-100 mb-4">
             Where Digital Nomads Love to Be
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
             Handpicked destinations perfect for remote work and adventure
           </p>
         </div>
@@ -63,10 +63,10 @@ export default function Destinations() {
           {destinations.map((dest, index) => (
             <div
               key={index}
-              className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+              className="group relative overflow-hidden rounded-2xl bg-dark-800/60 backdrop-blur glow-border hover:shadow-glow-teal-lg transition-all duration-300 hover:-translate-y-2"
             >
               {/* Background image placeholder */}
-              <div className="h-48 bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-7xl overflow-hidden">
+              <div className="h-48 bg-gradient-to-br from-teal-600/30 to-cyan-600/30 flex items-center justify-center text-7xl overflow-hidden border-b border-glow">
                 <div className="group-hover:scale-125 transition-transform duration-300">
                   {dest.image}
                 </div>
@@ -74,23 +74,23 @@ export default function Destinations() {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{dest.name}</h3>
+                <h3 className="text-2xl font-bold text-gray-100 mb-2">{dest.name}</h3>
 
                 {/* Rating */}
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-yellow-400">★</span>
-                  <span className="font-semibold text-gray-700">{dest.rating}</span>
+                  <span className="font-semibold text-gray-300">{dest.rating}</span>
                   <span className="text-gray-500 text-sm">(450+ reviews)</span>
                 </div>
 
-                <p className="text-gray-600 mb-4">{dest.description}</p>
+                <p className="text-gray-400 mb-4">{dest.description}</p>
 
                 {/* Highlights */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {dest.highlights.map((highlight, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium"
+                      className="px-3 py-1 bg-dark-700 text-teal-300 rounded-full text-sm font-medium border border-teal-500/30"
                     >
                       {highlight}
                     </span>
@@ -99,7 +99,7 @@ export default function Destinations() {
 
                 <a
                   href="#contact"
-                  className="block text-center px-4 py-2 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+                  className="block text-center px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-dark-950 rounded-lg font-semibold hover:shadow-glow-teal transition-all duration-300 border border-teal-400/50"
                 >
                   Plan Trip
                 </a>
@@ -110,12 +110,12 @@ export default function Destinations() {
 
         {/* More destinations CTA */}
         <div className="text-center mt-16">
-          <p className="text-gray-600 text-lg mb-4">
+          <p className="text-gray-400 text-lg mb-4">
             Plus 44+ other amazing destinations handpicked for digital nomads
           </p>
           <a
             href="#contact"
-            className="inline-block px-8 py-4 border-2 border-teal-600 text-teal-600 rounded-full font-bold hover:bg-teal-600 hover:text-white transition-all duration-300"
+            className="inline-block px-8 py-4 border-2 border-teal-500 text-teal-400 rounded-full font-bold hover:bg-teal-500/20 hover:text-teal-300 transition-all duration-300 glow-border"
           >
             Explore All Destinations
           </a>
