@@ -1,17 +1,7 @@
 import './globals.css';
-import './../lib/builder-init';  // This imports and runs builder.init()
-
-export const metadata = {
-  title: 'My Builder App',
-  description: 'Builder.io integrated Next.js app',
-};
-
+import { builder } from '@builder.io/sdk';
+builder.init('2fcfe1b955134aacad7b3c67770584fe');
+export const metadata = { title: 'Builder.io App' };
 export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body>
-        {children}
-      </body>
-    </html>
-  );
+  return <html lang="en"><body>{children}</body></html>;
 }

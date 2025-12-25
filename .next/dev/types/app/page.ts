@@ -1,4 +1,4 @@
-// File: /home/bandarof/Github/BZNomad/app/page.tsx
+// File: /home/bandarof/Github/BZNomad/app/page.js
 import * as entry from '../../../../app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

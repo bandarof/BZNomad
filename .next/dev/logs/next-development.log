@@ -1,9 +1,8 @@
-[00:00:01.853] Server  WARN    ⚠ Duplicate page detected. app/page.js and app/page.tsx resolve to /
-[00:00:01.853] Server  WARN    ⚠ Duplicate page detected. app/page.js and app/page.tsx resolve to /
-[00:00:01.854] Server  LOG     ✓ Ready in 1608ms
-[00:00:01.869] Server  WARN    ⚠ Duplicate page detected. app/page.js and app/page.tsx resolve to /
-[00:00:01.900] Server  WARN    ⚠ Duplicate page detected. app/page.js and app/page.tsx resolve to /
-[00:00:03.762] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:10.626] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:00:11.060] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:15.855] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:01.579] Server  LOG     ✓ Ready in 1327ms
+[00:00:04.689] Server  LOG     ○ Compiling /_not-found ...
+[00:00:05.709] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:19.140] Server  WARN    ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:00:19.601] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:19.730] Browser ERROR   uncaughtError: Error: Fetching content failed, expected apiKey to be defined instead got: null
+[00:00:22.978] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:23.098] Browser ERROR   uncaughtError: Error: Fetching content failed, expected apiKey to be defined instead got: null
