@@ -1,8 +1,5 @@
 import './globals.css';
-import { builder } from '../lib/builder-init';
-
-// Builder is already initialized in builder-init.js
-// This ensures the same instance is used everywhere
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Builder.io App',
@@ -11,7 +8,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {/* Load debug script */}
+        <Script src="/builder-debug.js" strategy="afterInteractive" />
+        {children}
+      </body>
     </html>
   );
 }

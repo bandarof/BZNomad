@@ -1,4 +1,10 @@
-[00:00:01.674] Server  LOG     ✓ Ready in 1440ms
-[00:00:10.214] Server  LOG     ○ Compiling / ...
-[00:00:11.947] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:12.089] Browser ERROR   uncaughtError: Error: Fetching content failed, expected apiKey to be defined instead got: null
+[00:00:01.646] Server  LOG     ✓ Ready in 1390ms
+[00:05:56.515] Server  ERROR   Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/0.pack.gz'
+[00:05:56.517] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/0.pack.gz'
+[00:05:56.517] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/0.pack.gz'
+[00:05:56.518] Server  ERROR   Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/2.pack.gz'
+[00:05:56.518] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/2.pack.gz'
+[00:05:56.519] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/2.pack.gz'
+[00:05:56.562] Server  ERROR   Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/client-development/2.pack.gz'
+[00:05:56.563] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/client-development/2.pack.gz'
+[00:05:56.563] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/client-development/2.pack.gz'
