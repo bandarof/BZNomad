@@ -30,7 +30,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ RootLayout),\n/* harmony export */   metadata: () => (/* binding */ metadata)\n/* harmony export */ });\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-dev-runtime */ \"(rsc)/./node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js\");\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _globals_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals.css */ \"(rsc)/./app/globals.css\");\n\n\nconst metadata = {\n    title: 'Test App',\n    description: 'Test application'\n};\nfunction RootLayout({ children }) {\n    return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"html\", {\n        lang: \"en\",\n        children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"body\", {\n            children: children\n        }, void 0, false, {\n            fileName: \"/home/bandarof/Github/BZNomad/app/layout.js\",\n            lineNumber: 11,\n            columnNumber: 7\n        }, this)\n    }, void 0, false, {\n        fileName: \"/home/bandarof/Github/BZNomad/app/layout.js\",\n        lineNumber: 10,\n        columnNumber: 5\n    }, this);\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9hcHAvbGF5b3V0LmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7OztBQUF1QjtBQUVoQixNQUFNQSxXQUFXO0lBQ3RCQyxPQUFPO0lBQ1BDLGFBQWE7QUFDZixFQUFFO0FBRWEsU0FBU0MsV0FBVyxFQUFFQyxRQUFRLEVBQUU7SUFDN0MscUJBQ0UsOERBQUNDO1FBQUtDLE1BQUs7a0JBQ1QsNEVBQUNDO3NCQUFNSDs7Ozs7Ozs7Ozs7QUFHYiIsInNvdXJjZXMiOlsiL2hvbWUvYmFuZGFyb2YvR2l0aHViL0JaTm9tYWQvYXBwL2xheW91dC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgJy4vZ2xvYmFscy5jc3MnO1xuXG5leHBvcnQgY29uc3QgbWV0YWRhdGEgPSB7XG4gIHRpdGxlOiAnVGVzdCBBcHAnLFxuICBkZXNjcmlwdGlvbjogJ1Rlc3QgYXBwbGljYXRpb24nLFxufTtcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gUm9vdExheW91dCh7IGNoaWxkcmVuIH0pIHtcbiAgcmV0dXJuIChcbiAgICA8aHRtbCBsYW5nPVwiZW5cIj5cbiAgICAgIDxib2R5PntjaGlsZHJlbn08L2JvZHk+XG4gICAgPC9odG1sPlxuICApO1xufVxuIl0sIm5hbWVzIjpbIm1ldGFkYXRhIiwidGl0bGUiLCJkZXNjcmlwdGlvbiIsIlJvb3RMYXlvdXQiLCJjaGlsZHJlbiIsImh0bWwiLCJsYW5nIiwiYm9keSJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(rsc)/./app/layout.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ RootLayout),\n/* harmony export */   metadata: () => (/* binding */ metadata)\n/* harmony export */ });\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-dev-runtime */ \"(rsc)/./node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js\");\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _globals_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./globals.css */ \"(rsc)/./app/globals.css\");\n/* harmony import */ var _lib_builder_init__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/builder-init */ \"(rsc)/./lib/builder-init.js\");\n\n\n\n// Builder is already initialized in builder-init.js\n// This ensures the same instance is used everywhere\nconst metadata = {\n    title: 'Builder.io App'\n};\nfunction RootLayout({ children }) {\n    return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"html\", {\n        lang: \"en\",\n        children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"body\", {\n            children: children\n        }, void 0, false, {\n            fileName: \"/home/bandarof/Github/BZNomad/app/layout.js\",\n            lineNumber: 14,\n            columnNumber: 7\n        }, this)\n    }, void 0, false, {\n        fileName: \"/home/bandarof/Github/BZNomad/app/layout.js\",\n        lineNumber: 13,\n        columnNumber: 5\n    }, this);\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9hcHAvbGF5b3V0LmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7QUFBdUI7QUFDdUI7QUFFOUMsb0RBQW9EO0FBQ3BELG9EQUFvRDtBQUU3QyxNQUFNQyxXQUFXO0lBQ3RCQyxPQUFPO0FBQ1QsRUFBRTtBQUVhLFNBQVNDLFdBQVcsRUFBRUMsUUFBUSxFQUFFO0lBQzdDLHFCQUNFLDhEQUFDQztRQUFLQyxNQUFLO2tCQUNULDRFQUFDQztzQkFBTUg7Ozs7Ozs7Ozs7O0FBR2IiLCJzb3VyY2VzIjpbIi9ob21lL2JhbmRhcm9mL0dpdGh1Yi9CWk5vbWFkL2FwcC9sYXlvdXQuanMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICcuL2dsb2JhbHMuY3NzJztcbmltcG9ydCB7IGJ1aWxkZXIgfSBmcm9tICcuLi9saWIvYnVpbGRlci1pbml0JztcblxuLy8gQnVpbGRlciBpcyBhbHJlYWR5IGluaXRpYWxpemVkIGluIGJ1aWxkZXItaW5pdC5qc1xuLy8gVGhpcyBlbnN1cmVzIHRoZSBzYW1lIGluc3RhbmNlIGlzIHVzZWQgZXZlcnl3aGVyZVxuXG5leHBvcnQgY29uc3QgbWV0YWRhdGEgPSB7XG4gIHRpdGxlOiAnQnVpbGRlci5pbyBBcHAnLFxufTtcblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gUm9vdExheW91dCh7IGNoaWxkcmVuIH0pIHtcbiAgcmV0dXJuIChcbiAgICA8aHRtbCBsYW5nPVwiZW5cIj5cbiAgICAgIDxib2R5PntjaGlsZHJlbn08L2JvZHk+XG4gICAgPC9odG1sPlxuICApO1xufVxuIl0sIm5hbWVzIjpbImJ1aWxkZXIiLCJtZXRhZGF0YSIsInRpdGxlIiwiUm9vdExheW91dCIsImNoaWxkcmVuIiwiaHRtbCIsImxhbmciLCJib2R5Il0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(rsc)/./app/layout.js\n");
 
 /***/ }),
 
@@ -41,7 +41,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Home)\n/* harmony export */ });\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-dev-runtime */ \"(rsc)/./node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js\");\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__);\n\nfunction Home() {\n    return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"div\", {\n        children: [\n            /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"h1\", {\n                children: \"Test Page\"\n            }, void 0, false, {\n                fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n                lineNumber: 4,\n                columnNumber: 7\n            }, this),\n            /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"p\", {\n                children: \"If you see this, server is working!\"\n            }, void 0, false, {\n                fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n                lineNumber: 5,\n                columnNumber: 7\n            }, this)\n        ]\n    }, void 0, true, {\n        fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n        lineNumber: 3,\n        columnNumber: 5\n    }, this);\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9hcHAvcGFnZS5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7O0FBQWUsU0FBU0E7SUFDdEIscUJBQ0UsOERBQUNDOzswQkFDQyw4REFBQ0M7MEJBQUc7Ozs7OzswQkFDSiw4REFBQ0M7MEJBQUU7Ozs7Ozs7Ozs7OztBQUdUIiwic291cmNlcyI6WyIvaG9tZS9iYW5kYXJvZi9HaXRodWIvQlpOb21hZC9hcHAvcGFnZS5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBIb21lKCkge1xuICByZXR1cm4gKFxuICAgIDxkaXY+XG4gICAgICA8aDE+VGVzdCBQYWdlPC9oMT5cbiAgICAgIDxwPklmIHlvdSBzZWUgdGhpcywgc2VydmVyIGlzIHdvcmtpbmchPC9wPlxuICAgIDwvZGl2PlxuICApO1xufVxuIl0sIm5hbWVzIjpbIkhvbWUiLCJkaXYiLCJoMSIsInAiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./app/page.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var react_server_dom_webpack_server__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-server-dom-webpack/server */ \"(rsc)/./node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-server-dom-webpack-server.js\");\n/* harmony import */ var react_server_dom_webpack_server__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_server_dom_webpack_server__WEBPACK_IMPORTED_MODULE_0__);\n// This file is generated by the Webpack next-flight-loader.\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_server_dom_webpack_server__WEBPACK_IMPORTED_MODULE_0__.registerClientReference)(\nfunction() { throw new Error(\"Attempted to call the default export of \\\"/home/bandarof/Github/BZNomad/app/page.js\\\" from the server, but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\"); },\n\"/home/bandarof/Github/BZNomad/app/page.js\",\n\"default\",\n));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9hcHAvcGFnZS5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSIsInNvdXJjZXMiOlsiX05fRS8uL2FwcC9wYWdlLmpzL19fbmV4dGpzLWludGVybmFsLXByb3h5Lm1qcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBUaGlzIGZpbGUgaXMgZ2VuZXJhdGVkIGJ5IHRoZSBXZWJwYWNrIG5leHQtZmxpZ2h0LWxvYWRlci5cbmltcG9ydCB7IHJlZ2lzdGVyQ2xpZW50UmVmZXJlbmNlIH0gZnJvbSBcInJlYWN0LXNlcnZlci1kb20td2VicGFjay9zZXJ2ZXJcIjtcbmV4cG9ydCBkZWZhdWx0IHJlZ2lzdGVyQ2xpZW50UmVmZXJlbmNlKFxuZnVuY3Rpb24oKSB7IHRocm93IG5ldyBFcnJvcihcIkF0dGVtcHRlZCB0byBjYWxsIHRoZSBkZWZhdWx0IGV4cG9ydCBvZiBcXFwiL2hvbWUvYmFuZGFyb2YvR2l0aHViL0JaTm9tYWQvYXBwL3BhZ2UuanNcXFwiIGZyb20gdGhlIHNlcnZlciwgYnV0IGl0J3Mgb24gdGhlIGNsaWVudC4gSXQncyBub3QgcG9zc2libGUgdG8gaW52b2tlIGEgY2xpZW50IGZ1bmN0aW9uIGZyb20gdGhlIHNlcnZlciwgaXQgY2FuIG9ubHkgYmUgcmVuZGVyZWQgYXMgYSBDb21wb25lbnQgb3IgcGFzc2VkIHRvIHByb3BzIG9mIGEgQ2xpZW50IENvbXBvbmVudC5cIik7IH0sXG5cIi9ob21lL2JhbmRhcm9mL0dpdGh1Yi9CWk5vbWFkL2FwcC9wYWdlLmpzXCIsXG5cImRlZmF1bHRcIixcbik7XG4iXSwibmFtZXMiOltdLCJpZ25vcmVMaXN0IjpbMF0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./app/page.js\n");
+
+/***/ }),
+
+/***/ "(rsc)/./lib/builder-init.js":
+/*!*****************************!*\
+  !*** ./lib/builder-init.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   API_KEY: () => (/* binding */ API_KEY),\n/* harmony export */   builder: () => (/* reexport safe */ _builder_io_sdk__WEBPACK_IMPORTED_MODULE_0__.builder)\n/* harmony export */ });\n/* harmony import */ var _builder_io_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @builder.io/sdk */ \"(rsc)/./node_modules/@builder.io/sdk/dist/index.esm.js\");\n\n// Initialize with your EXACT public key\nconst API_KEY = '2fcfe1b955134aacad7b3c67770584fe';\n_builder_io_sdk__WEBPACK_IMPORTED_MODULE_0__.builder.init(API_KEY);\n// Export the initialized instance\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9saWIvYnVpbGRlci1pbml0LmpzIiwibWFwcGluZ3MiOiI7Ozs7OztBQUEwQztBQUUxQyx3Q0FBd0M7QUFDeEMsTUFBTUMsVUFBVTtBQUNoQkQsb0RBQU9BLENBQUNFLElBQUksQ0FBQ0Q7QUFFYixrQ0FBa0M7QUFDTiIsInNvdXJjZXMiOlsiL2hvbWUvYmFuZGFyb2YvR2l0aHViL0JaTm9tYWQvbGliL2J1aWxkZXItaW5pdC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBidWlsZGVyIH0gZnJvbSAnQGJ1aWxkZXIuaW8vc2RrJztcblxuLy8gSW5pdGlhbGl6ZSB3aXRoIHlvdXIgRVhBQ1QgcHVibGljIGtleVxuY29uc3QgQVBJX0tFWSA9ICcyZmNmZTFiOTU1MTM0YWFjYWQ3YjNjNjc3NzA1ODRmZSc7XG5idWlsZGVyLmluaXQoQVBJX0tFWSk7XG5cbi8vIEV4cG9ydCB0aGUgaW5pdGlhbGl6ZWQgaW5zdGFuY2VcbmV4cG9ydCB7IGJ1aWxkZXIsIEFQSV9LRVkgfTtcbiJdLCJuYW1lcyI6WyJidWlsZGVyIiwiQVBJX0tFWSIsImluaXQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./lib/builder-init.js\n");
 
 /***/ }),
 
@@ -63,6 +74,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ (() => {
 
 
+
+/***/ }),
+
+/***/ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fpage.js%22%2C%22ids%22%3A%5B%5D%7D&server=true!":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fpage.js%22%2C%22ids%22%3A%5B%5D%7D&server=true! ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.bind(__webpack_require__, /*! ./app/page.js */ \"(rsc)/./app/page.js\"));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9kaXN0L2J1aWxkL3dlYnBhY2svbG9hZGVycy9uZXh0LWZsaWdodC1jbGllbnQtZW50cnktbG9hZGVyLmpzP21vZHVsZXM9JTdCJTIycmVxdWVzdCUyMiUzQSUyMiUyRmhvbWUlMkZiYW5kYXJvZiUyRkdpdGh1YiUyRkJaTm9tYWQlMkZhcHAlMkZwYWdlLmpzJTIyJTJDJTIyaWRzJTIyJTNBJTVCJTVEJTdEJnNlcnZlcj10cnVlISIsIm1hcHBpbmdzIjoiQUFBQSxzSUFBOEUiLCJzb3VyY2VzIjpbIiJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQoLyogd2VicGFja01vZGU6IFwiZWFnZXJcIiAqLyBcIi9ob21lL2JhbmRhcm9mL0dpdGh1Yi9CWk5vbWFkL2FwcC9wYWdlLmpzXCIpO1xuIl0sIm5hbWVzIjpbXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fpage.js%22%2C%22ids%22%3A%5B%5D%7D&server=true!\n");
 
 /***/ }),
 
@@ -96,6 +117,28 @@ eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.t.bind(__w
 
 /***/ }),
 
+/***/ "(ssr)/./app/page.js":
+/*!*********************!*\
+  !*** ./app/page.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Home)\n/* harmony export */ });\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-dev-runtime */ \"(ssr)/./node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js\");\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var _builder_io_react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @builder.io/react */ \"(ssr)/./node_modules/@builder.io/react/dist/builder-react.es5.js\");\n/* harmony import */ var _lib_builder_init__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../lib/builder-init */ \"(ssr)/./lib/builder-init.js\");\n/* __next_internal_client_entry_do_not_use__ default auto */ \n\n\nfunction Home() {\n    return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"div\", {\n        className: \"p-8\",\n        children: [\n            /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"h1\", {\n                className: \"text-3xl font-bold mb-4\",\n                children: \"Builder.io Test\"\n            }, void 0, false, {\n                fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n                lineNumber: 8,\n                columnNumber: 7\n            }, this),\n            /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"p\", {\n                className: \"mb-6\",\n                children: [\n                    \"API Key: \",\n                    _lib_builder_init__WEBPACK_IMPORTED_MODULE_2__.API_KEY\n                ]\n            }, void 0, true, {\n                fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n                lineNumber: 9,\n                columnNumber: 7\n            }, this),\n            /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"div\", {\n                className: \"border-2 border-gray-300 p-4 rounded\",\n                children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_builder_io_react__WEBPACK_IMPORTED_MODULE_1__.BuilderComponent, {\n                    model: \"page\",\n                    apiKey: _lib_builder_init__WEBPACK_IMPORTED_MODULE_2__.API_KEY\n                }, void 0, false, {\n                    fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n                    lineNumber: 13,\n                    columnNumber: 9\n                }, this)\n            }, void 0, false, {\n                fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n                lineNumber: 11,\n                columnNumber: 7\n            }, this)\n        ]\n    }, void 0, true, {\n        fileName: \"/home/bandarof/Github/BZNomad/app/page.js\",\n        lineNumber: 7,\n        columnNumber: 5\n    }, this);\n}\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9hcHAvcGFnZS5qcyIsIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7QUFDcUQ7QUFDRTtBQUV4QyxTQUFTRztJQUN0QixxQkFDRSw4REFBQ0M7UUFBSUMsV0FBVTs7MEJBQ2IsOERBQUNDO2dCQUFHRCxXQUFVOzBCQUEwQjs7Ozs7OzBCQUN4Qyw4REFBQ0U7Z0JBQUVGLFdBQVU7O29CQUFPO29CQUFVSCxzREFBT0E7Ozs7Ozs7MEJBRXJDLDhEQUFDRTtnQkFBSUMsV0FBVTswQkFFYiw0RUFBQ0wsK0RBQWdCQTtvQkFDZlEsT0FBTTtvQkFDTkMsUUFBUVAsc0RBQU9BOzs7Ozs7Ozs7Ozs7Ozs7OztBQUt6QiIsInNvdXJjZXMiOlsiL2hvbWUvYmFuZGFyb2YvR2l0aHViL0JaTm9tYWQvYXBwL3BhZ2UuanMiXSwic291cmNlc0NvbnRlbnQiOlsiXCJ1c2UgY2xpZW50XCI7XG5pbXBvcnQgeyBCdWlsZGVyQ29tcG9uZW50IH0gZnJvbSAnQGJ1aWxkZXIuaW8vcmVhY3QnO1xuaW1wb3J0IHsgYnVpbGRlciwgQVBJX0tFWSB9IGZyb20gJy4uL2xpYi9idWlsZGVyLWluaXQnO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBIb21lKCkge1xuICByZXR1cm4gKFxuICAgIDxkaXYgY2xhc3NOYW1lPVwicC04XCI+XG4gICAgICA8aDEgY2xhc3NOYW1lPVwidGV4dC0zeGwgZm9udC1ib2xkIG1iLTRcIj5CdWlsZGVyLmlvIFRlc3Q8L2gxPlxuICAgICAgPHAgY2xhc3NOYW1lPVwibWItNlwiPkFQSSBLZXk6IHtBUElfS0VZfTwvcD5cbiAgICAgIFxuICAgICAgPGRpdiBjbGFzc05hbWU9XCJib3JkZXItMiBib3JkZXItZ3JheS0zMDAgcC00IHJvdW5kZWRcIj5cbiAgICAgICAgey8qIEV4cGxpY2l0bHkgcGFzcyB0aGUgQVBJIGtleSB0byBCdWlsZGVyQ29tcG9uZW50ICovfVxuICAgICAgICA8QnVpbGRlckNvbXBvbmVudCBcbiAgICAgICAgICBtb2RlbD1cInBhZ2VcIiBcbiAgICAgICAgICBhcGlLZXk9e0FQSV9LRVl9XG4gICAgICAgIC8+XG4gICAgICA8L2Rpdj5cbiAgICA8L2Rpdj5cbiAgKTtcbn1cbiJdLCJuYW1lcyI6WyJCdWlsZGVyQ29tcG9uZW50IiwiYnVpbGRlciIsIkFQSV9LRVkiLCJIb21lIiwiZGl2IiwiY2xhc3NOYW1lIiwiaDEiLCJwIiwibW9kZWwiLCJhcGlLZXkiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(ssr)/./app/page.js\n");
+
+/***/ }),
+
+/***/ "(ssr)/./lib/builder-init.js":
+/*!*****************************!*\
+  !*** ./lib/builder-init.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   API_KEY: () => (/* binding */ API_KEY),\n/* harmony export */   builder: () => (/* reexport safe */ _builder_io_sdk__WEBPACK_IMPORTED_MODULE_0__.builder)\n/* harmony export */ });\n/* harmony import */ var _builder_io_sdk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @builder.io/sdk */ \"(ssr)/./node_modules/@builder.io/sdk/dist/index.esm.js\");\n\n// Initialize with your EXACT public key\nconst API_KEY = '2fcfe1b955134aacad7b3c67770584fe';\n_builder_io_sdk__WEBPACK_IMPORTED_MODULE_0__.builder.init(API_KEY);\n// Export the initialized instance\n\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9saWIvYnVpbGRlci1pbml0LmpzIiwibWFwcGluZ3MiOiI7Ozs7OztBQUEwQztBQUUxQyx3Q0FBd0M7QUFDeEMsTUFBTUMsVUFBVTtBQUNoQkQsb0RBQU9BLENBQUNFLElBQUksQ0FBQ0Q7QUFFYixrQ0FBa0M7QUFDTiIsInNvdXJjZXMiOlsiL2hvbWUvYmFuZGFyb2YvR2l0aHViL0JaTm9tYWQvbGliL2J1aWxkZXItaW5pdC5qcyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBidWlsZGVyIH0gZnJvbSAnQGJ1aWxkZXIuaW8vc2RrJztcblxuLy8gSW5pdGlhbGl6ZSB3aXRoIHlvdXIgRVhBQ1QgcHVibGljIGtleVxuY29uc3QgQVBJX0tFWSA9ICcyZmNmZTFiOTU1MTM0YWFjYWQ3YjNjNjc3NzA1ODRmZSc7XG5idWlsZGVyLmluaXQoQVBJX0tFWSk7XG5cbi8vIEV4cG9ydCB0aGUgaW5pdGlhbGl6ZWQgaW5zdGFuY2VcbmV4cG9ydCB7IGJ1aWxkZXIsIEFQSV9LRVkgfTtcbiJdLCJuYW1lcyI6WyJidWlsZGVyIiwiQVBJX0tFWSIsImluaXQiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(ssr)/./lib/builder-init.js\n");
+
+/***/ }),
+
 /***/ "(ssr)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&server=true!":
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fglobals.css%22%2C%22ids%22%3A%5B%5D%7D&server=true! ***!
@@ -103,6 +146,16 @@ eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.t.bind(__w
 /***/ (() => {
 
 
+
+/***/ }),
+
+/***/ "(ssr)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fpage.js%22%2C%22ids%22%3A%5B%5D%7D&server=true!":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fpage.js%22%2C%22ids%22%3A%5B%5D%7D&server=true! ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("Promise.resolve(/*! import() eager */).then(__webpack_require__.bind(__webpack_require__, /*! ./app/page.js */ \"(ssr)/./app/page.js\"));\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHNzcikvLi9ub2RlX21vZHVsZXMvbmV4dC9kaXN0L2J1aWxkL3dlYnBhY2svbG9hZGVycy9uZXh0LWZsaWdodC1jbGllbnQtZW50cnktbG9hZGVyLmpzP21vZHVsZXM9JTdCJTIycmVxdWVzdCUyMiUzQSUyMiUyRmhvbWUlMkZiYW5kYXJvZiUyRkdpdGh1YiUyRkJaTm9tYWQlMkZhcHAlMkZwYWdlLmpzJTIyJTJDJTIyaWRzJTIyJTNBJTVCJTVEJTdEJnNlcnZlcj10cnVlISIsIm1hcHBpbmdzIjoiQUFBQSxzSUFBOEUiLCJzb3VyY2VzIjpbIiJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQoLyogd2VicGFja01vZGU6IFwiZWFnZXJcIiAqLyBcIi9ob21lL2JhbmRhcm9mL0dpdGh1Yi9CWk5vbWFkL2FwcC9wYWdlLmpzXCIpO1xuIl0sIm5hbWVzIjpbXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(ssr)/./node_modules/next/dist/build/webpack/loaders/next-flight-client-entry-loader.js?modules=%7B%22request%22%3A%22%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp%2Fpage.js%22%2C%22ids%22%3A%5B%5D%7D&server=true!\n");
 
 /***/ }),
 
@@ -188,6 +241,28 @@ module.exports = require("next/dist/server/app-render/work-async-storage.externa
 
 "use strict";
 module.exports = require("next/dist/server/app-render/work-unit-async-storage.external.js");
+
+/***/ }),
+
+/***/ "http":
+/*!***********************!*\
+  !*** external "http" ***!
+  \***********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("http");
+
+/***/ }),
+
+/***/ "https":
+/*!************************!*\
+  !*** external "https" ***!
+  \************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("https");
 
 /***/ }),
 
@@ -279,6 +354,39 @@ module.exports = require("path");
 
 /***/ }),
 
+/***/ "punycode":
+/*!***************************!*\
+  !*** external "punycode" ***!
+  \***************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("punycode");
+
+/***/ }),
+
+/***/ "stream":
+/*!*************************!*\
+  !*** external "stream" ***!
+  \*************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("stream");
+
+/***/ }),
+
+/***/ "url":
+/*!**********************!*\
+  !*** external "url" ***!
+  \**********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("url");
+
+/***/ }),
+
 /***/ "util":
 /*!***********************!*\
   !*** external "util" ***!
@@ -287,6 +395,17 @@ module.exports = require("path");
 
 "use strict";
 module.exports = require("util");
+
+/***/ }),
+
+/***/ "zlib":
+/*!***********************!*\
+  !*** external "zlib" ***!
+  \***********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("zlib");
 
 /***/ })
 
@@ -297,7 +416,7 @@ module.exports = require("util");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next","vendor-chunks/@swc","vendor-chunks/@opentelemetry"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fpage&page=%2Fpage&appPaths=%2Fpage&pagePath=private-next-app-dir%2Fpage.js&appDir=%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fhome%2Fbandarof%2FGithub%2FBZNomad&isDev=true&tsconfigPath=&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!")));
+var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/next","vendor-chunks/@builder.io","vendor-chunks/@opentelemetry","vendor-chunks/hash-sum","vendor-chunks/@swc","vendor-chunks/@emotion","vendor-chunks/whatwg-url","vendor-chunks/@babel","vendor-chunks/tr46","vendor-chunks/node-fetch","vendor-chunks/webidl-conversions"], () => (__webpack_exec__("(rsc)/./node_modules/next/dist/build/webpack/loaders/next-app-loader/index.js?name=app%2Fpage&page=%2Fpage&appPaths=%2Fpage&pagePath=private-next-app-dir%2Fpage.js&appDir=%2Fhome%2Fbandarof%2FGithub%2FBZNomad%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2Fhome%2Fbandarof%2FGithub%2FBZNomad&isDev=true&tsconfigPath=&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D&isGlobalNotFoundEnabled=!")));
 module.exports = __webpack_exports__;
 
 })();

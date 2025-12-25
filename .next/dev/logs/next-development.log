@@ -1,9 +1,1 @@
-[00:00:01.687] Server  LOG     ✓ Ready in 1432ms
-[00:12:16.986] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open '/home/bandarof/Github/BZNomad/.next/dev/server/app/page.js'
-[00:12:20.137] Browser ERROR   uncaughtError: Error: ENOENT: no such file or directory, open '/home/bandarof/Github/BZNomad/.next/dev/server/app/page.js'
-[00:12:20.606] Server  ERROR   Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/client-development/3.pack.gz'
-[00:12:20.607] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/client-development/3.pack.gz'
-[00:12:20.608] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/client-development/3.pack.gz'
-[00:13:18.907] Server  ERROR   Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/3.pack.gz'
-[00:13:18.908] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/3.pack.gz'
-[00:13:18.908] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, stat '/home/bandarof/Github/BZNomad/.next/dev/cache/webpack/server-development/3.pack.gz'
+[00:00:01.689] Server  LOG     ✓ Ready in 1441ms
