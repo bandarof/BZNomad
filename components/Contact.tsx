@@ -12,6 +12,13 @@ interface SideTrip {
   transport: TransportType;
   departure: string;
   destination: string;
+  dateType: DateType;
+  date: string;
+  flexFrom: string;
+  flexTo: string;
+  returnDate?: string;
+  returnFlexFrom?: string;
+  returnFlexTo?: string;
   segmentId: number;
   hotelStars: HotelStars;
   carCategory: CarCategory;
@@ -147,12 +154,28 @@ export default function Contact() {
     const segment = citySegments.find(s => s.id === segmentId);
     if (!segment) return;
 
+    // Calculate default date range for side trip based on segment dates
+    let date = '';
+    let flexFrom = '';
+    let flexTo = '';
+
+    if (segment.dateType === 'fixed' && segment.date) {
+      date = segment.date;
+    } else if (segment.dateType === 'flexible' && segment.flexFrom && segment.flexTo) {
+      flexFrom = segment.flexFrom;
+      flexTo = segment.flexTo;
+    }
+
     const newSideTrip: SideTrip = {
       id: Date.now(),
       type: 'one-way',
       transport: 'plane',
       departure: segment.destination || '',
       destination: '',
+      dateType: segment.dateType,
+      date,
+      flexFrom,
+      flexTo,
       segmentId: segmentId,
       hotelStars: 'none',
       carCategory: 'none'
@@ -189,6 +212,24 @@ export default function Contact() {
     ));
   };
 
+  const getSegmentDateRange = (segment: CitySegment) => {
+    if (segment.dateType === 'fixed') {
+      return { min: segment.date, max: segment.date };
+    } else {
+      return { min: segment.flexFrom, max: segment.flexTo };
+    }
+  };
+
+  const getNextSegmentDateRange = (segmentId: number) => {
+    const currentSegmentIndex = citySegments.findIndex(s => s.id === segmentId);
+    if (currentSegmentIndex === -1 || currentSegmentIndex >= citySegments.length - 1) {
+      return null;
+    }
+
+    const nextSegment = citySegments[currentSegmentIndex + 1];
+    return getSegmentDateRange(nextSegment);
+  };
+
   const validateMultiCity = () => {
     for (const segment of citySegments) {
       if (!segment.departure || !segment.destination) {
@@ -210,6 +251,27 @@ export default function Contact() {
         if (!sideTrip.departure || !sideTrip.destination) {
           setError('Please fill in departure and destination for all side trips');
           return false;
+        }
+
+        if (sideTrip.dateType === 'fixed' && !sideTrip.date) {
+          setError('Please select a date for all side trips');
+          return false;
+        }
+
+        if (sideTrip.dateType === 'flexible' && (!sideTrip.flexFrom || !sideTrip.flexTo)) {
+          setError('Please select a date range for all side trips');
+          return false;
+        }
+
+        if (sideTrip.type === 'round-trip') {
+          if (sideTrip.dateType === 'fixed' && !sideTrip.returnDate) {
+            setError('Please select a return date for round-trip side trips');
+            return false;
+          }
+          if (sideTrip.dateType === 'flexible' && (!sideTrip.returnFlexFrom || !sideTrip.returnFlexTo)) {
+            setError('Please select a return date range for round-trip side trips');
+            return false;
+          }
         }
       }
     }
@@ -295,8 +357,27 @@ export default function Contact() {
             formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_transport`, sideTrip.transport);
             formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_departure`, sideTrip.departure);
             formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_destination`, sideTrip.destination);
+            formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_dateType`, sideTrip.dateType);
             formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_hotelStars`, sideTrip.hotelStars);
             formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_carCategory`, sideTrip.carCategory);
+
+            if (sideTrip.dateType === 'fixed') {
+              formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_date`, sideTrip.date);
+              if (sideTrip.type === 'round-trip' && sideTrip.returnDate) {
+                formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_returnDate`, sideTrip.returnDate);
+              }
+            } else {
+              formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_flexFrom`, sideTrip.flexFrom);
+              formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_flexTo`, sideTrip.flexTo);
+              if (sideTrip.type === 'round-trip') {
+                if (sideTrip.returnFlexFrom) {
+                  formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_returnFlexFrom`, sideTrip.returnFlexFrom);
+                }
+                if (sideTrip.returnFlexTo) {
+                  formDataToSend.append(`segment${index + 1}_side${sideIndex + 1}_returnFlexTo`, sideTrip.returnFlexTo);
+                }
+              }
+            }
           });
         });
       } else {
@@ -418,6 +499,92 @@ export default function Contact() {
     }
   };
 
+  const renderDateSelector = (
+    type: DateType,
+    setType: (type: DateType) => void,
+    fixedDate: string,
+    setFixedDate: (date: string) => void,
+    flexFrom: string,
+    setFlexFrom: (date: string) => void,
+    flexTo: string,
+    setFlexTo: (date: string) => void,
+    label: string,
+    isReturnDate?: boolean,
+    minDate?: string,
+    maxDate?: string
+  ) => (
+    <div>
+      <label className={`block text-gray-300 font-semibold mb-2 ${isReturnDate ? '' : 'with-asterisk'}`}>
+        {label} {!isReturnDate && <span className="text-teal-400">*</span>}
+      </label>
+
+      <div className="flex space-x-2 mb-3">
+        <button
+          type="button"
+          onClick={() => setType('fixed')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${type === 'fixed'
+            ? 'bg-teal-500 text-dark-950'
+            : 'bg-dark-700 text-gray-400 hover:bg-dark-600'
+            }`}
+        >
+          Fixed Date
+        </button>
+        <button
+          type="button"
+          onClick={() => setType('flexible')}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${type === 'flexible'
+            ? 'bg-teal-500 text-dark-950'
+            : 'bg-dark-700 text-gray-400 hover:bg-dark-600'
+            }`}
+        >
+          Flexible Dates
+        </button>
+      </div>
+
+      {type === 'fixed' ? (
+        <input
+          type="date"
+          value={fixedDate}
+          onChange={(e) => setFixedDate(e.target.value)}
+          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+          min={minDate || new Date().toISOString().split('T')[0]}
+          max={maxDate}
+        />
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-gray-300 text-sm mb-1">Earliest Date</label>
+            <input
+              type="date"
+              value={flexFrom}
+              onChange={(e) => setFlexFrom(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
+              min={minDate || new Date().toISOString().split('T')[0]}
+              max={maxDate}
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm mb-1">Latest Date</label>
+            <input
+              type="date"
+              value={flexTo}
+              onChange={(e) => setFlexTo(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
+              min={flexFrom || minDate || new Date().toISOString().split('T')[0]}
+              max={maxDate}
+            />
+          </div>
+        </div>
+      )}
+
+      {type === 'flexible' && (
+        <p className="text-xs text-gray-400 mt-1">
+          We'll find the best options within your preferred range
+        </p>
+      )}
+    </div>
+  );
+
   const renderHotelStars = (
     value: HotelStars,
     onChange: (stars: HotelStars) => void,
@@ -474,86 +641,123 @@ export default function Contact() {
     </div>
   );
 
-  const renderDateSelector = (
-    type: DateType,
-    setType: (type: DateType) => void,
-    fixedDate: string,
-    setFixedDate: (date: string) => void,
-    flexFrom: string,
-    setFlexFrom: (date: string) => void,
-    flexTo: string,
-    setFlexTo: (date: string) => void,
-    label: string,
-    isReturnDate?: boolean
-  ) => (
-    <div>
-      <label className="block text-gray-300 font-semibold mb-2">
-        {label} {!isReturnDate && <span className="text-teal-400">*</span>}
-      </label>
+  const renderSideTripDateSelector = (segmentId: number, sideTrip: SideTrip) => {
+    const segment = citySegments.find(s => s.id === segmentId);
+    if (!segment) return null;
 
-      <div className="flex space-x-2 mb-3">
-        <button
-          type="button"
-          onClick={() => setType('fixed')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${type === 'fixed'
-            ? 'bg-teal-500 text-dark-950'
-            : 'bg-dark-700 text-gray-400 hover:bg-dark-600'
-            }`}
-        >
-          Fixed Date
-        </button>
-        <button
-          type="button"
-          onClick={() => setType('flexible')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${type === 'flexible'
-            ? 'bg-teal-500 text-dark-950'
-            : 'bg-dark-700 text-gray-400 hover:bg-dark-600'
-            }`}
-        >
-          Flexible Dates
-        </button>
-      </div>
+    // Get date constraints for side trip
+    const segmentDateRange = getSegmentDateRange(segment);
+    const nextSegmentDateRange = getNextSegmentDateRange(segmentId);
 
-      {type === 'fixed' ? (
-        <input
-          type="date"
-          value={fixedDate}
-          onChange={(e) => setFixedDate(e.target.value)}
-          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-          min={new Date().toISOString().split('T')[0]}
-        />
-      ) : (
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">Earliest Date</label>
-            <input
-              type="date"
-              value={flexFrom}
-              onChange={(e) => setFlexFrom(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
-              min={new Date().toISOString().split('T')[0]}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-300 text-sm mb-1">Latest Date</label>
-            <input
-              type="date"
-              value={flexTo}
-              onChange={(e) => setFlexTo(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
-              min={flexFrom || new Date().toISOString().split('T')[0]}
-            />
-          </div>
+    // Side trips must happen between current segment's date and next segment's date (if exists)
+    let minDate = segmentDateRange.min;
+    let maxDate = nextSegmentDateRange?.min || segmentDateRange.max;
+
+    return (
+      <div className="mb-3">
+        <label className="block text-gray-300 text-xs mb-1">Date</label>
+        <div className="flex gap-1 mb-2">
+          <button
+            type="button"
+            onClick={() => updateSideTrip(segmentId, sideTrip.id, 'dateType', 'fixed')}
+            className={`px-2 py-1 rounded text-xs ${sideTrip.dateType === 'fixed' ? 'bg-teal-500 text-dark-950' : 'bg-dark-700 text-gray-400'}`}
+          >
+            Fixed
+          </button>
+          <button
+            type="button"
+            onClick={() => updateSideTrip(segmentId, sideTrip.id, 'dateType', 'flexible')}
+            className={`px-2 py-1 rounded text-xs ${sideTrip.dateType === 'flexible' ? 'bg-teal-500 text-dark-950' : 'bg-dark-700 text-gray-400'}`}
+          >
+            Flexible
+          </button>
         </div>
-      )}
 
-      {type === 'flexible' && (
+        {sideTrip.dateType === 'fixed' ? (
+          <input
+            type="date"
+            value={sideTrip.date}
+            onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'date', e.target.value)}
+            className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+            min={minDate}
+            max={maxDate}
+          />
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-gray-300 text-xs mb-1">Earliest Date</label>
+              <input
+                type="date"
+                value={sideTrip.flexFrom}
+                onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'flexFrom', e.target.value)}
+                className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                min={minDate}
+                max={maxDate}
+              />
+            </div>
+            <div>
+              <label className="block text-gray-300 text-xs mb-1">Latest Date</label>
+              <input
+                type="date"
+                value={sideTrip.flexTo}
+                onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'flexTo', e.target.value)}
+                className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                min={sideTrip.flexFrom || minDate}
+                max={maxDate}
+              />
+            </div>
+          </div>
+        )}
+
+        {sideTrip.type === 'round-trip' && (
+          <div className="mt-2">
+            <label className="block text-gray-300 text-xs mb-1">
+              Return Date
+            </label>
+            {sideTrip.dateType === 'fixed' ? (
+              <input
+                type="date"
+                value={sideTrip.returnDate || ''}
+                onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'returnDate', e.target.value)}
+                className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                min={sideTrip.date || minDate}
+                max={maxDate}
+              />
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-gray-300 text-xs mb-1">Return From</label>
+                  <input
+                    type="date"
+                    value={sideTrip.returnFlexFrom || ''}
+                    onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'returnFlexFrom', e.target.value)}
+                    className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                    min={sideTrip.flexFrom || minDate}
+                    max={maxDate}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-300 text-xs mb-1">Return To</label>
+                  <input
+                    type="date"
+                    value={sideTrip.returnFlexTo || ''}
+                    onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'returnFlexTo', e.target.value)}
+                    className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                    min={sideTrip.returnFlexFrom || sideTrip.flexFrom || minDate}
+                    max={maxDate}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         <p className="text-xs text-gray-400 mt-1">
-          We'll find the best options within your preferred range
+          Must be between {minDate} and {maxDate}
         </p>
-      )}
-    </div>
-  );
+      </div>
+    );
+  };
 
   const contactInfo = [
     {
@@ -873,6 +1077,8 @@ export default function Contact() {
                                       </div>
                                     </div>
 
+                                    {renderSideTripDateSelector(segment.id, sideTrip)}
+
                                     {renderHotelStars(
                                       sideTrip.hotelStars,
                                       (stars) => updateSideTrip(segment.id, sideTrip.id, 'hotelStars', stars),
@@ -1132,11 +1338,11 @@ export default function Contact() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-teal-400 mt-0.5">✓</span>
-                    <span>Specify hotel preferences for each destination</span>
+                    <span>Side trips automatically use date ranges from main segments</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-teal-400 mt-0.5">✓</span>
-                    <span>Choose car rental category for each city</span>
+                    <span>Choose one-way or round-trip for side excursions</span>
                   </li>
                 </ul>
               </div>
