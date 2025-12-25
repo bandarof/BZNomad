@@ -22,10 +22,21 @@ export default function About() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-          {/* Left side - Content */}
+          {/* Left side - Content with profile photo */}
           <div className="animate-slideInUp">
             <div className="bg-dark-800/60 backdrop-blur rounded-3xl p-8 mb-8 glow-border-lg">
-              <h3 className="text-3xl font-bold text-gray-100 mb-6">Meet Bander Radein</h3>
+              {/* Founder Profile Photo inside box */}
+              <div className="flex justify-center mb-6">
+                <div className="w-32 h-32 rounded-full overflow-hidden glow-border-lg shadow-2xl shadow-teal-500/30 border-4 border-teal-500/50">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=300"
+                    alt="Bander Radein - Founder of BZNomad"
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+
+              <h3 className="text-3xl font-bold text-gray-100 mb-6 text-center">Meet Bander Radein</h3>
               <p className="text-lg text-gray-300 mb-4">
                 With over 15 years of experience in the travel industry, Bander Radein understands what modern travelers need. Founded out of personal experience as a digital nomad, BZNomad specializes in creating seamless, unforgettable travel experiences.
               </p>
@@ -56,19 +67,8 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right side - Founder Photo and Stats */}
-          <div className="animate-slideInDown space-y-6">
-            {/* Founder Profile Photo */}
-            <div className="flex justify-center mb-4">
-              <div className="w-40 h-40 rounded-full overflow-hidden glow-border-lg shadow-2xl shadow-teal-500/30 border-4 border-teal-500/50">
-                <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=300"
-                  alt="Bander Radein - Founder of BZNomad"
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-            </div>
-
+          {/* Right side - Stats */}
+          <div className="animate-slideInDown">
             {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4">
               {stats.map((stat, index) => (
