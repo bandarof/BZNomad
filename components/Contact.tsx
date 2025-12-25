@@ -88,10 +88,17 @@ export default function Contact() {
   ]);
 
   const [roundTripSideTrips, setRoundTripSideTrips] = useState<SideTrip[]>([]);
-
+  const [honeypot, setHoneypot] = useState(''); // Anti-spam honeypot field
+  const [formToken, setFormToken] = useState(''); // CSRF token
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Generate form token on component mount
+  useState(() => {
+    const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    setFormToken(token);
+  });
 
   // Add side trip to round trip
   const addRoundTripSideTrip = () => {
@@ -368,8 +375,49 @@ export default function Contact() {
     setError('');
     setLoading(true);
 
+    // Anti-spam validation
+    if (honeypot) {
+      // If honeypot field is filled, it's likely a bot
+      setError('Submission failed. Please try again.');
+      setLoading(false);
+      return;
+    }
+
+    if (!formToken) {
+      setError('Form validation failed. Please refresh the page and try again.');
+      setLoading(false);
+      return;
+    }
+
+    // Time-based validation - minimum 2 seconds to fill form (for bots that submit instantly)
+    const formStartTime = (e.target as HTMLFormElement).dataset.startTime;
+    if (formStartTime) {
+      const timeElapsed = Date.now() - parseInt(formStartTime);
+      if (timeElapsed < 2000) { // Less than 2 seconds
+        setError('Please take a moment to review your information before submitting.');
+        setLoading(false);
+        return;
+      }
+    }
+
     if (!formData.name || !formData.email || !formData.phone) {
       setError('Please fill in all required personal information');
+      setLoading(false);
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    // Phone validation (basic)
+    const phoneRegex = /^[\d\s\-\+\(\)\.]+$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setError('Please enter a valid phone number');
       setLoading(false);
       return;
     }
@@ -420,6 +468,11 @@ export default function Contact() {
 
     try {
       const formDataToSend = new FormData();
+
+      // Add honeypot and token
+      formDataToSend.append('_honeypot', honeypot);
+      formDataToSend.append('_token', formToken);
+      formDataToSend.append('_timestamp', Date.now().toString());
 
       formDataToSend.append('name', formData.name);
       formDataToSend.append('email', formData.email);
@@ -535,6 +588,9 @@ export default function Contact() {
       formDataToSend.append('_next', 'https://bznomad.com/thank-you');
       formDataToSend.append('_format', 'plain');
 
+      // Add additional headers for spam protection
+      formDataToSend.append('_gotcha', ''); // Another honeypot for Formspree
+
       const response = await fetch('https://formspree.io/f/xwveggld', {
         method: 'POST',
         body: formDataToSend,
@@ -580,6 +636,7 @@ export default function Contact() {
             sideTrips: []
           }]);
           setRoundTripSideTrips([]);
+          setHoneypot('');
           setSubmitted(false);
         }, 3000);
       } else {
@@ -777,15 +834,25 @@ export default function Contact() {
         maxDate = dateFlexibility.returnFlexTo || dateFlexibility.departureFlexTo;
       }
     } else {
-      // For multi-city side trips
+      // For multi-city side trips - FIXED: Use next segment's departure date
       const segment = citySegments.find(s => s.id === sideTrip.segmentId);
       if (!segment) return null;
 
       const segmentDateRange = getSegmentDateRange(segment);
       const nextSegmentDateRange = getNextSegmentDateRange(segment.id);
 
+      // CHANGED: Use the EARLIEST possible date from current segment
       minDate = segmentDateRange.min;
-      maxDate = nextSegmentDateRange?.min || segmentDateRange.max;
+
+      // CHANGED: Use the EARLIEST date from next segment (not the max/latest)
+      // This ensures side trips must be completed BEFORE the next leg departure
+      if (nextSegmentDateRange) {
+        // Use the earliest date of the next segment's travel window
+        maxDate = nextSegmentDateRange.min; // Changed from nextSegmentDateRange.max
+      } else {
+        // If there's no next segment, use the current segment's max date
+        maxDate = segmentDateRange.max;
+      }
     }
 
     return (
@@ -986,12 +1053,30 @@ export default function Contact() {
                 action="https://formspree.io/f/xwveggld"
                 method="POST"
                 className="space-y-4"
+                data-start-time={Date.now().toString()}
               >
                 {error && (
                   <div className="bg-red-950/50 border border-red-500/50 rounded-xl p-4 text-red-400 font-semibold">
                     {error}
                   </div>
                 )}
+
+                {/* Honeypot field - hidden from humans, visible to bots */}
+                <div className="hidden">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Form token */}
+                <input type="hidden" name="_token" value={formToken} />
 
                 <div>
                   <label className="block text-gray-300 font-semibold mb-2">
@@ -1032,6 +1117,8 @@ export default function Contact() {
                           required
                           className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                           placeholder="Your name"
+                          minLength={2}
+                          maxLength={100}
                         />
                       </div>
 
@@ -1047,6 +1134,8 @@ export default function Contact() {
                           required
                           className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                           placeholder="your@email.com"
+                          pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+                          title="Please enter a valid email address"
                         />
                       </div>
 
@@ -1062,6 +1151,10 @@ export default function Contact() {
                           required
                           className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                           placeholder="+1 (555) 000-0000"
+                          pattern="[\d\s\-\+\(\)\.]+"
+                          title="Please enter a valid phone number"
+                          minLength={5}
+                          maxLength={20}
                         />
                       </div>
                     </div>
@@ -1110,6 +1203,8 @@ export default function Contact() {
                                     required
                                     className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
                                     placeholder={index === 0 ? "Starting city" : "Departure city"}
+                                    minLength={2}
+                                    maxLength={100}
                                   />
                                 </div>
                                 <div>
@@ -1123,6 +1218,8 @@ export default function Contact() {
                                     required
                                     className="w-full px-3 py-2 rounded-lg bg-dark-900/50 border border-dark-600 focus:border-teal-400 focus:ring-1 focus:ring-teal-500/30 transition-all"
                                     placeholder="Destination city"
+                                    minLength={2}
+                                    maxLength={100}
                                   />
                                 </div>
                               </div>
@@ -1222,6 +1319,8 @@ export default function Contact() {
                                           onChange={(e) => updateSideTrip(segment.id, sideTrip.id, 'departure', e.target.value)}
                                           className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                                           placeholder="Departure city"
+                                          minLength={2}
+                                          maxLength={100}
                                         />
                                       </div>
                                       <div>
@@ -1232,6 +1331,8 @@ export default function Contact() {
                                           onChange={(e) => updateSideTrip(segment.id, sideTrip.id, 'destination', e.target.value)}
                                           className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                                           placeholder="Destination city"
+                                          minLength={2}
+                                          maxLength={100}
                                         />
                                       </div>
                                     </div>
@@ -1290,6 +1391,8 @@ export default function Contact() {
                               required
                               className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                               placeholder="e.g., New York, London"
+                              minLength={2}
+                              maxLength={100}
                             />
                           </div>
 
@@ -1305,6 +1408,8 @@ export default function Contact() {
                               required
                               className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
                               placeholder="e.g., Bali, Lisbon, Tokyo"
+                              minLength={2}
+                              maxLength={100}
                             />
                           </div>
 
@@ -1424,6 +1529,8 @@ export default function Contact() {
                                     onChange={(e) => updateRoundTripSideTrip(sideTrip.id, 'departure', e.target.value)}
                                     className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                                     placeholder="Departure city"
+                                    minLength={2}
+                                    maxLength={100}
                                   />
                                 </div>
                                 <div>
@@ -1434,6 +1541,8 @@ export default function Contact() {
                                     onChange={(e) => updateRoundTripSideTrip(sideTrip.id, 'destination', e.target.value)}
                                     className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                                     placeholder="Destination city"
+                                    minLength={2}
+                                    maxLength={100}
                                   />
                                 </div>
                               </div>
@@ -1475,6 +1584,7 @@ export default function Contact() {
                       rows={4}
                       className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all resize-none glow-border"
                       placeholder="Tell us about your travel preferences, accommodation needs, budget, or any special requests..."
+                      maxLength={2000}
                     ></textarea>
                   </div>
                 </div>
@@ -1488,6 +1598,8 @@ export default function Contact() {
                 <input type="hidden" name="_cc" value={formData.email} />
                 <input type="hidden" name="_next" value="https://bznomad.com/thank-you" />
                 <input type="hidden" name="_format" value="plain" />
+                {/* Formspree honeypot */}
+                <input type="text" name="_gotcha" style={{ display: 'none' }} />
 
                 <button
                   type="submit"
@@ -1616,7 +1728,7 @@ export default function Contact() {
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-teal-400 mt-0.5">✓</span>
-                    <span>Side trips automatically use date ranges from main segments</span>
+                    <span>Side trips must be completed before your next departure</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-teal-400 mt-0.5">✓</span>
