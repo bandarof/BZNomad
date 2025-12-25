@@ -7,6 +7,11 @@
     "build": "next build",
     "start": "next start"
   },
+  "scripts": {
+    "dev": "next dev --turbo=false",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
     "@builder.io/react": "9.1.0",
     "@builder.io/sdk": "6.2.0",
