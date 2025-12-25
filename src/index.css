@@ -181,7 +181,7 @@ select:focus {
 
 .carousel-track {
   display: flex;
-  width: 300%;
+  width: 600%;
   transition: none;
 }
 
