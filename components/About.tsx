@@ -56,17 +56,29 @@ export default function About() {
             </div>
           </div>
 
-          {/* Right side - Stats */}
-          <div className="grid grid-cols-2 gap-6 animate-slideInDown">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="bg-gradient-to-br from-teal-600/50 to-cyan-600/50 rounded-2xl p-8 text-gray-100 text-center glow-border hover:shadow-glow-teal-lg transition-all duration-300 hover:scale-105"
-              >
-                <div className="text-4xl font-bold mb-2 text-teal-300">{stat.number}</div>
-                <p className="font-semibold text-gray-200">{stat.label}</p>
-              </div>
-            ))}
+          {/* Right side - Founder Photo and Stats */}
+          <div className="animate-slideInDown space-y-6">
+            {/* Founder Photo */}
+            <div className="rounded-3xl overflow-hidden glow-border-lg shadow-2xl shadow-teal-500/20">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=600"
+                alt="Bander Radein - Founder of BZNomad"
+                className="w-full h-96 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {stats.map((stat, index) => (
+                <div
+                  key={index}
+                  className="bg-gradient-to-br from-teal-600/50 to-cyan-600/50 rounded-2xl p-6 text-gray-100 text-center glow-border hover:shadow-glow-teal-lg transition-all duration-300 hover:scale-105"
+                >
+                  <div className="text-3xl font-bold mb-2 text-teal-300">{stat.number}</div>
+                  <p className="font-semibold text-gray-200 text-sm">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
