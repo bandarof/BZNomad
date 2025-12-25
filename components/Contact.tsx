@@ -19,7 +19,7 @@ interface SideTrip {
   returnDate?: string;
   returnFlexFrom?: string;
   returnFlexTo?: string;
-  segmentId: number;
+  segmentId?: number; // For multi-city segments
   hotelStars: HotelStars;
   carCategory: CarCategory;
 }
@@ -87,9 +87,63 @@ export default function Contact() {
     }
   ]);
 
+  const [roundTripSideTrips, setRoundTripSideTrips] = useState<SideTrip[]>([]);
+
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Add side trip to round trip
+  const addRoundTripSideTrip = () => {
+    // Calculate default dates based on round trip dates
+    let date = '';
+    let flexFrom = '';
+    let flexTo = '';
+    let returnDate = '';
+    let returnFlexFrom = '';
+    let returnFlexTo = '';
+
+    if (dateFlexibility.departureType === 'fixed' && dateFlexibility.departureDate && dateFlexibility.returnDate) {
+      date = dateFlexibility.departureDate;
+      returnDate = dateFlexibility.returnDate;
+    } else if (dateFlexibility.departureType === 'flexible' && dateFlexibility.departureFlexFrom && dateFlexibility.departureFlexTo) {
+      flexFrom = dateFlexibility.departureFlexFrom;
+      flexTo = dateFlexibility.departureFlexTo;
+      if (dateFlexibility.returnFlexFrom && dateFlexibility.returnFlexTo) {
+        returnFlexFrom = dateFlexibility.returnFlexFrom;
+        returnFlexTo = dateFlexibility.returnFlexTo;
+      }
+    }
+
+    const newSideTrip: SideTrip = {
+      id: Date.now(),
+      type: 'one-way',
+      transport: 'plane',
+      departure: formData.destination || '',
+      destination: '',
+      dateType: dateFlexibility.departureType,
+      date,
+      flexFrom,
+      flexTo,
+      returnDate,
+      returnFlexFrom,
+      returnFlexTo,
+      hotelStars: 'none',
+      carCategory: 'none'
+    };
+
+    setRoundTripSideTrips([...roundTripSideTrips, newSideTrip]);
+  };
+
+  const updateRoundTripSideTrip = (sideTripId: number, field: keyof SideTrip, value: any) => {
+    setRoundTripSideTrips(roundTripSideTrips.map(trip =>
+      trip.id === sideTripId ? { ...trip, [field]: value } : trip
+    ));
+  };
+
+  const removeRoundTripSideTrip = (sideTripId: number) => {
+    setRoundTripSideTrips(roundTripSideTrips.filter(trip => trip.id !== sideTripId));
+  };
 
   const addCitySegment = () => {
     if (citySegments.length < 10) {
@@ -278,6 +332,37 @@ export default function Contact() {
     return true;
   };
 
+  const validateRoundTripSideTrips = () => {
+    for (const sideTrip of roundTripSideTrips) {
+      if (!sideTrip.departure || !sideTrip.destination) {
+        setError('Please fill in departure and destination for all side trips');
+        return false;
+      }
+
+      if (sideTrip.dateType === 'fixed' && !sideTrip.date) {
+        setError('Please select a date for all side trips');
+        return false;
+      }
+
+      if (sideTrip.dateType === 'flexible' && (!sideTrip.flexFrom || !sideTrip.flexTo)) {
+        setError('Please select a date range for all side trips');
+        return false;
+      }
+
+      if (sideTrip.type === 'round-trip') {
+        if (sideTrip.dateType === 'fixed' && !sideTrip.returnDate) {
+          setError('Please select a return date for round-trip side trips');
+          return false;
+        }
+        if (sideTrip.dateType === 'flexible' && (!sideTrip.returnFlexFrom || !sideTrip.returnFlexTo)) {
+          setError('Please select a return date range for round-trip side trips');
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
@@ -321,6 +406,12 @@ export default function Contact() {
         }
         if (dateFlexibility.returnType === 'flexible' && (!dateFlexibility.returnFlexFrom || !dateFlexibility.returnFlexTo)) {
           setError('Please select a return date range');
+          setLoading(false);
+          return;
+        }
+
+        // Validate round trip side trips
+        if (!validateRoundTripSideTrips()) {
           setLoading(false);
           return;
         }
@@ -400,6 +491,35 @@ export default function Contact() {
             formDataToSend.append('returnFlexFrom', dateFlexibility.returnFlexFrom);
             formDataToSend.append('returnFlexTo', dateFlexibility.returnFlexTo);
           }
+
+          // Add round trip side trips
+          roundTripSideTrips.forEach((sideTrip, index) => {
+            formDataToSend.append(`side${index + 1}_type`, sideTrip.type);
+            formDataToSend.append(`side${index + 1}_transport`, sideTrip.transport);
+            formDataToSend.append(`side${index + 1}_departure`, sideTrip.departure);
+            formDataToSend.append(`side${index + 1}_destination`, sideTrip.destination);
+            formDataToSend.append(`side${index + 1}_dateType`, sideTrip.dateType);
+            formDataToSend.append(`side${index + 1}_hotelStars`, sideTrip.hotelStars);
+            formDataToSend.append(`side${index + 1}_carCategory`, sideTrip.carCategory);
+
+            if (sideTrip.dateType === 'fixed') {
+              formDataToSend.append(`side${index + 1}_date`, sideTrip.date);
+              if (sideTrip.type === 'round-trip' && sideTrip.returnDate) {
+                formDataToSend.append(`side${index + 1}_returnDate`, sideTrip.returnDate);
+              }
+            } else {
+              formDataToSend.append(`side${index + 1}_flexFrom`, sideTrip.flexFrom);
+              formDataToSend.append(`side${index + 1}_flexTo`, sideTrip.flexTo);
+              if (sideTrip.type === 'round-trip') {
+                if (sideTrip.returnFlexFrom) {
+                  formDataToSend.append(`side${index + 1}_returnFlexFrom`, sideTrip.returnFlexFrom);
+                }
+                if (sideTrip.returnFlexTo) {
+                  formDataToSend.append(`side${index + 1}_returnFlexTo`, sideTrip.returnFlexTo);
+                }
+              }
+            }
+          });
         }
       }
 
@@ -407,7 +527,7 @@ export default function Contact() {
 
       const subject = formData.tripType === 'multi-city'
         ? `New Multi-City Trip Inquiry from ${formData.name} (${citySegments.length} segments)`
-        : `New ${formData.tripType} Travel Inquiry from ${formData.name}`;
+        : `New ${formData.tripType} Travel Inquiry from ${formData.name}${roundTripSideTrips.length > 0 ? ` with ${roundTripSideTrips.length} side trips` : ''}`;
 
       formDataToSend.append('_subject', subject);
       formDataToSend.append('_replyto', formData.email);
@@ -459,6 +579,7 @@ export default function Contact() {
             carCategory: 'none',
             sideTrips: []
           }]);
+          setRoundTripSideTrips([]);
           setSubmitted(false);
         }, 3000);
       } else {
@@ -641,17 +762,31 @@ export default function Contact() {
     </div>
   );
 
-  const renderSideTripDateSelector = (segmentId: number, sideTrip: SideTrip) => {
-    const segment = citySegments.find(s => s.id === segmentId);
-    if (!segment) return null;
-
+  const renderSideTripDateSelector = (sideTrip: SideTrip, isRoundTripSideTrip?: boolean) => {
     // Get date constraints for side trip
-    const segmentDateRange = getSegmentDateRange(segment);
-    const nextSegmentDateRange = getNextSegmentDateRange(segmentId);
+    let minDate = '';
+    let maxDate = '';
 
-    // Side trips must happen between current segment's date and next segment's date (if exists)
-    let minDate = segmentDateRange.min;
-    let maxDate = nextSegmentDateRange?.min || segmentDateRange.max;
+    if (isRoundTripSideTrip) {
+      // For round trip side trips, must be between departure and return dates
+      if (dateFlexibility.departureType === 'fixed') {
+        minDate = dateFlexibility.departureDate;
+        maxDate = dateFlexibility.returnDate || '';
+      } else {
+        minDate = dateFlexibility.departureFlexFrom;
+        maxDate = dateFlexibility.returnFlexTo || dateFlexibility.departureFlexTo;
+      }
+    } else {
+      // For multi-city side trips
+      const segment = citySegments.find(s => s.id === sideTrip.segmentId);
+      if (!segment) return null;
+
+      const segmentDateRange = getSegmentDateRange(segment);
+      const nextSegmentDateRange = getNextSegmentDateRange(segment.id);
+
+      minDate = segmentDateRange.min;
+      maxDate = nextSegmentDateRange?.min || segmentDateRange.max;
+    }
 
     return (
       <div className="mb-3">
@@ -659,14 +794,20 @@ export default function Contact() {
         <div className="flex gap-1 mb-2">
           <button
             type="button"
-            onClick={() => updateSideTrip(segmentId, sideTrip.id, 'dateType', 'fixed')}
+            onClick={() => isRoundTripSideTrip
+              ? updateRoundTripSideTrip(sideTrip.id, 'dateType', 'fixed')
+              : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'dateType', 'fixed')
+            }
             className={`px-2 py-1 rounded text-xs ${sideTrip.dateType === 'fixed' ? 'bg-teal-500 text-dark-950' : 'bg-dark-700 text-gray-400'}`}
           >
             Fixed
           </button>
           <button
             type="button"
-            onClick={() => updateSideTrip(segmentId, sideTrip.id, 'dateType', 'flexible')}
+            onClick={() => isRoundTripSideTrip
+              ? updateRoundTripSideTrip(sideTrip.id, 'dateType', 'flexible')
+              : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'dateType', 'flexible')
+            }
             className={`px-2 py-1 rounded text-xs ${sideTrip.dateType === 'flexible' ? 'bg-teal-500 text-dark-950' : 'bg-dark-700 text-gray-400'}`}
           >
             Flexible
@@ -677,7 +818,10 @@ export default function Contact() {
           <input
             type="date"
             value={sideTrip.date}
-            onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'date', e.target.value)}
+            onChange={(e) => isRoundTripSideTrip
+              ? updateRoundTripSideTrip(sideTrip.id, 'date', e.target.value)
+              : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'date', e.target.value)
+            }
             className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
             min={minDate}
             max={maxDate}
@@ -689,7 +833,10 @@ export default function Contact() {
               <input
                 type="date"
                 value={sideTrip.flexFrom}
-                onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'flexFrom', e.target.value)}
+                onChange={(e) => isRoundTripSideTrip
+                  ? updateRoundTripSideTrip(sideTrip.id, 'flexFrom', e.target.value)
+                  : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'flexFrom', e.target.value)
+                }
                 className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                 min={minDate}
                 max={maxDate}
@@ -700,7 +847,10 @@ export default function Contact() {
               <input
                 type="date"
                 value={sideTrip.flexTo}
-                onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'flexTo', e.target.value)}
+                onChange={(e) => isRoundTripSideTrip
+                  ? updateRoundTripSideTrip(sideTrip.id, 'flexTo', e.target.value)
+                  : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'flexTo', e.target.value)
+                }
                 className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                 min={sideTrip.flexFrom || minDate}
                 max={maxDate}
@@ -718,7 +868,10 @@ export default function Contact() {
               <input
                 type="date"
                 value={sideTrip.returnDate || ''}
-                onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'returnDate', e.target.value)}
+                onChange={(e) => isRoundTripSideTrip
+                  ? updateRoundTripSideTrip(sideTrip.id, 'returnDate', e.target.value)
+                  : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'returnDate', e.target.value)
+                }
                 className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                 min={sideTrip.date || minDate}
                 max={maxDate}
@@ -730,7 +883,10 @@ export default function Contact() {
                   <input
                     type="date"
                     value={sideTrip.returnFlexFrom || ''}
-                    onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'returnFlexFrom', e.target.value)}
+                    onChange={(e) => isRoundTripSideTrip
+                      ? updateRoundTripSideTrip(sideTrip.id, 'returnFlexFrom', e.target.value)
+                      : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'returnFlexFrom', e.target.value)
+                    }
                     className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                     min={sideTrip.flexFrom || minDate}
                     max={maxDate}
@@ -741,7 +897,10 @@ export default function Contact() {
                   <input
                     type="date"
                     value={sideTrip.returnFlexTo || ''}
-                    onChange={(e) => updateSideTrip(segmentId, sideTrip.id, 'returnFlexTo', e.target.value)}
+                    onChange={(e) => isRoundTripSideTrip
+                      ? updateRoundTripSideTrip(sideTrip.id, 'returnFlexTo', e.target.value)
+                      : updateSideTrip(sideTrip.segmentId!, sideTrip.id, 'returnFlexTo', e.target.value)
+                    }
                     className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
                     min={sideTrip.returnFlexFrom || sideTrip.flexFrom || minDate}
                     max={maxDate}
@@ -1077,7 +1236,7 @@ export default function Contact() {
                                       </div>
                                     </div>
 
-                                    {renderSideTripDateSelector(segment.id, sideTrip)}
+                                    {renderSideTripDateSelector(sideTrip)}
 
                                     {renderHotelStars(
                                       sideTrip.hotelStars,
@@ -1115,76 +1274,195 @@ export default function Contact() {
                       </div>
                     </div>
                   ) : (
-                    <div className="p-4 bg-dark-700/30 rounded-lg border border-dark-600">
-                      <h4 className="text-teal-300 font-semibold mb-3">Trip Details</h4>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-gray-300 font-semibold mb-2">
-                            Departure City <span className="text-teal-400">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            name="departure"
-                            value={formData.departure}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                            placeholder="e.g., New York, London"
-                          />
+                    <div className="space-y-4">
+                      <div className="p-4 bg-dark-700/30 rounded-lg border border-dark-600">
+                        <h4 className="text-teal-300 font-semibold mb-3">Trip Details</h4>
+                        <div className="space-y-4">
+                          <div>
+                            <label className="block text-gray-300 font-semibold mb-2">
+                              Departure City <span className="text-teal-400">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              name="departure"
+                              value={formData.departure}
+                              onChange={handleChange}
+                              required
+                              className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                              placeholder="e.g., New York, London"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-gray-300 font-semibold mb-2">
+                              Destination City <span className="text-teal-400">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              name="destination"
+                              value={formData.destination}
+                              onChange={handleChange}
+                              required
+                              className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
+                              placeholder="e.g., Bali, Lisbon, Tokyo"
+                            />
+                          </div>
+
+                          {renderDateSelector(
+                            dateFlexibility.departureType,
+                            (type) => updateDateFlexibility('departureType', type),
+                            dateFlexibility.departureDate,
+                            (date) => updateDateFlexibility('departureDate', date),
+                            dateFlexibility.departureFlexFrom,
+                            (date) => updateDateFlexibility('departureFlexFrom', date),
+                            dateFlexibility.departureFlexTo,
+                            (date) => updateDateFlexibility('departureFlexTo', date),
+                            'Departure Date'
+                          )}
+
+                          {renderHotelStars(
+                            formData.hotelStars,
+                            (stars) => setFormData(prev => ({ ...prev, hotelStars: stars })),
+                            'Hotel at Destination'
+                          )}
+
+                          {renderCarCategory(
+                            formData.carCategory,
+                            (category) => setFormData(prev => ({ ...prev, carCategory: category })),
+                            'Car Rental at Destination'
+                          )}
+
+                          {formData.tripType === 'round-trip' && renderDateSelector(
+                            dateFlexibility.returnType,
+                            (type) => updateDateFlexibility('returnType', type),
+                            dateFlexibility.returnDate,
+                            (date) => updateDateFlexibility('returnDate', date),
+                            dateFlexibility.returnFlexFrom,
+                            (date) => updateDateFlexibility('returnFlexFrom', date),
+                            dateFlexibility.returnFlexTo,
+                            (date) => updateDateFlexibility('returnFlexTo', date),
+                            'Return Date',
+                            true
+                          )}
                         </div>
-
-                        <div>
-                          <label className="block text-gray-300 font-semibold mb-2">
-                            Destination City <span className="text-teal-400">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            name="destination"
-                            value={formData.destination}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-500/30 transition-all glow-border"
-                            placeholder="e.g., Bali, Lisbon, Tokyo"
-                          />
-                        </div>
-
-                        {renderDateSelector(
-                          dateFlexibility.departureType,
-                          (type) => updateDateFlexibility('departureType', type),
-                          dateFlexibility.departureDate,
-                          (date) => updateDateFlexibility('departureDate', date),
-                          dateFlexibility.departureFlexFrom,
-                          (date) => updateDateFlexibility('departureFlexFrom', date),
-                          dateFlexibility.departureFlexTo,
-                          (date) => updateDateFlexibility('departureFlexTo', date),
-                          'Departure Date'
-                        )}
-
-                        {renderHotelStars(
-                          formData.hotelStars,
-                          (stars) => setFormData(prev => ({ ...prev, hotelStars: stars })),
-                          'Hotel at Destination'
-                        )}
-
-                        {renderCarCategory(
-                          formData.carCategory,
-                          (category) => setFormData(prev => ({ ...prev, carCategory: category })),
-                          'Car Rental at Destination'
-                        )}
-
-                        {formData.tripType === 'round-trip' && renderDateSelector(
-                          dateFlexibility.returnType,
-                          (type) => updateDateFlexibility('returnType', type),
-                          dateFlexibility.returnDate,
-                          (date) => updateDateFlexibility('returnDate', date),
-                          dateFlexibility.returnFlexFrom,
-                          (date) => updateDateFlexibility('returnFlexFrom', date),
-                          dateFlexibility.returnFlexTo,
-                          (date) => updateDateFlexibility('returnFlexTo', date),
-                          'Return Date',
-                          true
-                        )}
                       </div>
+
+                      {/* Round Trip Side Trips Section */}
+                      {formData.tripType === 'round-trip' && (
+                        <div className="p-4 bg-dark-700/30 rounded-lg border border-dark-600">
+                          <div className="flex justify-between items-center mb-3">
+                            <h4 className="text-teal-300 font-semibold">Side Trips from {formData.destination}</h4>
+                            <button
+                              type="button"
+                              onClick={addRoundTripSideTrip}
+                              className="text-sm text-teal-400 hover:text-teal-300 flex items-center gap-1"
+                            >
+                              <span>+</span>
+                              <span>Add Side Trip</span>
+                            </button>
+                          </div>
+
+                          <p className="text-sm text-gray-400 mb-4">
+                            Add excursions during your stay. All side trips must return to {formData.destination} before your main return flight.
+                          </p>
+
+                          {roundTripSideTrips.map((sideTrip) => (
+                            <div key={sideTrip.id} className="mb-3 p-3 bg-dark-900/50 rounded-lg border border-dark-700">
+                              <div className="flex justify-between items-center mb-2">
+                                <span className="text-xs text-gray-400">Side Trip</span>
+                                <button
+                                  type="button"
+                                  onClick={() => removeRoundTripSideTrip(sideTrip.id)}
+                                  className="text-xs text-red-400 hover:text-red-300"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+
+                              <div className="flex gap-2 mb-3">
+                                <button
+                                  type="button"
+                                  onClick={() => updateRoundTripSideTrip(sideTrip.id, 'type', 'one-way')}
+                                  className={`px-3 py-1 rounded text-xs ${sideTrip.type === 'one-way' ? 'bg-teal-500 text-dark-950' : 'bg-dark-700 text-gray-400'}`}
+                                >
+                                  One-Way
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => updateRoundTripSideTrip(sideTrip.id, 'type', 'round-trip')}
+                                  className={`px-3 py-1 rounded text-xs ${sideTrip.type === 'round-trip' ? 'bg-teal-500 text-dark-950' : 'bg-dark-700 text-gray-400'}`}
+                                >
+                                  Round-Trip
+                                </button>
+                              </div>
+
+                              <div className="mb-3">
+                                <label className="block text-gray-300 text-xs mb-1">Transport Type</label>
+                                <div className="grid grid-cols-4 gap-1">
+                                  {(['plane', 'train', 'bus', 'car'] as TransportType[]).map((transport) => (
+                                    <button
+                                      key={transport}
+                                      type="button"
+                                      onClick={() => updateRoundTripSideTrip(sideTrip.id, 'transport', transport)}
+                                      className={`p-2 rounded text-xs ${sideTrip.transport === transport ? 'bg-teal-500/30 border border-teal-400' : 'bg-dark-700/50 border border-dark-600'}`}
+                                    >
+                                      {transport === 'plane' && '✈️'}
+                                      {transport === 'train' && '🚆'}
+                                      {transport === 'bus' && '🚌'}
+                                      {transport === 'car' && '🚗'}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div className="grid grid-cols-2 gap-2 mb-3">
+                                <div>
+                                  <label className="block text-gray-300 text-xs mb-1">From</label>
+                                  <input
+                                    type="text"
+                                    value={sideTrip.departure}
+                                    onChange={(e) => updateRoundTripSideTrip(sideTrip.id, 'departure', e.target.value)}
+                                    className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                                    placeholder="Departure city"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="block text-gray-300 text-xs mb-1">To</label>
+                                  <input
+                                    type="text"
+                                    value={sideTrip.destination}
+                                    onChange={(e) => updateRoundTripSideTrip(sideTrip.id, 'destination', e.target.value)}
+                                    className="w-full px-2 py-1 rounded bg-dark-900/50 border border-dark-600 text-sm"
+                                    placeholder="Destination city"
+                                  />
+                                </div>
+                              </div>
+
+                              {renderSideTripDateSelector(sideTrip, true)}
+
+                              {renderHotelStars(
+                                sideTrip.hotelStars,
+                                (stars) => updateRoundTripSideTrip(sideTrip.id, 'hotelStars', stars),
+                                `Hotel in ${sideTrip.destination || 'Destination'}`,
+                                true
+                              )}
+
+                              {renderCarCategory(
+                                sideTrip.carCategory,
+                                (category) => updateRoundTripSideTrip(sideTrip.id, 'carCategory', category),
+                                `Car Rental in ${sideTrip.destination || 'Destination'}`,
+                                true
+                              )}
+                            </div>
+                          ))}
+
+                          {roundTripSideTrips.length === 0 && (
+                            <div className="text-center py-4 text-gray-500 text-sm">
+                              No side trips added yet. Click "Add Side Trip" to add excursions during your stay.
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
 
@@ -1204,7 +1482,7 @@ export default function Contact() {
                 <input type="hidden" name="_subject" value={
                   formData.tripType === 'multi-city'
                     ? `New Multi-City Trip Inquiry from ${formData.name} (${citySegments.length} segments)`
-                    : `New ${formData.tripType} Travel Inquiry from ${formData.name}`
+                    : `New ${formData.tripType} Travel Inquiry from ${formData.name}${roundTripSideTrips.length > 0 ? ` with ${roundTripSideTrips.length} side trips` : ''}`
                 } />
                 <input type="hidden" name="_replyto" value={formData.email} />
                 <input type="hidden" name="_cc" value={formData.email} />
@@ -1343,6 +1621,26 @@ export default function Contact() {
                   <li className="flex items-start gap-2">
                     <span className="text-teal-400 mt-0.5">✓</span>
                     <span>Choose one-way or round-trip for side excursions</span>
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            {formData.tripType === 'round-trip' && (
+              <div className="bg-dark-800/60 border border-teal-400/30 backdrop-blur rounded-2xl p-6 glow-border">
+                <h4 className="text-teal-300 font-bold mb-3">Round Trip Side Trips</h4>
+                <ul className="space-y-2 text-sm text-gray-300">
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-400 mt-0.5">✓</span>
+                    <span>Add excursions during your stay at destination</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-400 mt-0.5">✓</span>
+                    <span>Must return to main destination before your return flight</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-teal-400 mt-0.5">✓</span>
+                    <span>Dates automatically constrained to your stay period</span>
                   </li>
                 </ul>
               </div>
