@@ -36,11 +36,11 @@ export default function Destinations() {
       rating: 4.9,
     },
     {
-      name: 'Medellín, Colombia',
-      image: '🌺',
-      description: 'Spring-like weather year-round with affordable living and modern amenities',
-      highlights: ['Weather', 'Cost', 'Infrastructure'],
-      rating: 4.6,
+      name: 'Himare, Albania',
+      image: '🏖️',
+      description: 'Stunning coastal paradise with pristine beaches and authentic Mediterranean charm',
+      highlights: ['Beaches', 'Affordable', 'Culture'],
+      rating: 4.9,
     },
   ];
 
