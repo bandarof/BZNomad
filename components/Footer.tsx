@@ -110,25 +110,6 @@ export default function Footer() {
         {/* Divider */}
         <div className="border-t border-glow my-12"></div>
 
-        {/* Business Certificate Section */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold text-gray-100 mb-6 text-center">Business Registration</h3>
-          <div className="flex justify-center">
-            <div className="w-full md:w-80">
-              <CertificateModal
-                certificateImage="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fbfa1c41af23d40f2912001c6206fad16?format=webp&width=800"
-                title="Business Registration Certificate"
-              />
-            </div>
-          </div>
-          <p className="text-center text-gray-400 text-sm mt-4">
-            Click on the certificate to view our official business registration document
-          </p>
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-glow my-12"></div>
-
         {/* Bottom section */}
         <div className="flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
           <p>
