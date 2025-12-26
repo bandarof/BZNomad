@@ -1,4 +1,5 @@
 import AnimatedLogo from './AnimatedLogo';
+import CertificateModal from './CertificateModal';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
