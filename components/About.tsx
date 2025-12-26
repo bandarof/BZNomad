@@ -31,7 +31,9 @@ export default function About() {
                   <img
                     src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=300"
                     alt="Bander Radein - Founder of BZNomad"
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 profile-image"
+                    onContextMenu={(e) => e.preventDefault()}
+                    draggable={false}
                   />
                 </div>
               </div>
@@ -88,21 +90,54 @@ export default function About() {
         <div className="bg-dark-800/60 backdrop-blur rounded-3xl p-12 text-center glow-border-lg">
           <h3 className="text-2xl font-bold text-gray-100 mb-8">Our Partners</h3>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border">
-              <div className="text-5xl mb-4">🌐</div>
+            <a
+              href="https://www.dreamport.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105"
+            >
+              <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fa17ef5ccc2e445d6bd948eaf41faa5b2?format=webp&width=200"
+                  alt="Dreamport logo"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
               <h4 className="font-bold text-gray-200 text-lg">Dreamport</h4>
-              <p className="text-gray-400 text-sm mt-2">Global travel network</p>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border">
-              <div className="text-5xl mb-4">🎫</div>
-              <h4 className="font-bold text-gray-200 text-lg">AsapTickets</h4>
-              <p className="text-gray-400 text-sm mt-2">Flight & booking services</p>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border">
-              <div className="text-5xl mb-4">🌟</div>
-              <h4 className="font-bold text-gray-200 text-lg">BZNomad</h4>
-              <p className="text-gray-400 text-sm mt-2">Nomad-focused travel</p>
-            </div>
+              <p className="text-gray-400 text-sm mt-2">Independent Travel Manager Platform</p>
+            </a>
+            <a
+              href="https://www.asaptickets.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105"
+            >
+              <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F15a3d2a8255f4378be38b5bb8f55ae36?format=webp&width=200"
+                  alt="ASAP Tickets logo"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
+              <h4 className="font-bold text-gray-200 text-lg">ASAP Tickets</h4>
+              <p className="text-gray-400 text-sm mt-2">Affordable Airline Tickets & Travel Services</p>
+            </a>
+            <a
+              href="https://dyninno.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105"
+            >
+              <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fa5952601df0b40cfb08f118817c4d414?format=webp&width=200"
+                  alt="Dyninno Group logo"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
+              <h4 className="font-bold text-gray-200 text-lg">Dyninno Group</h4>
+              <p className="text-gray-400 text-sm mt-2">Global Travel & Technology Innovation</p>
+            </a>
           </div>
         </div>
       </div>

@@ -173,6 +173,22 @@ select:focus {
   user-select: none;
 }
 
+/* Protect profile images from download */
+.profile-image {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Protect certificate and sensitive images */
+.protected-image {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 /* Carousel container styles */
 .carousel-container {
   position: relative;

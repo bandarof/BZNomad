@@ -1,4 +1,5 @@
 import AnimatedLogo from './AnimatedLogo';
+import CertificateModal from './CertificateModal';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,10 +12,10 @@ export default function Footer() {
   ];
 
   const social = [
-    { name: 'Facebook', emoji: '👤' },
-    { name: 'Instagram', emoji: '📷' },
-    { name: 'Twitter', emoji: '𝕏' },
-    { name: 'LinkedIn', emoji: '💼' },
+    { name: 'Instagram', emoji: '📷', url: 'https://instagram.com/bznomad' },
+    { name: 'Facebook', emoji: '👤', url: 'https://facebook.com/bznomad' },
+    { name: 'LinkedIn', emoji: '💼', url: 'https://linkedin.com/company/bznomad' },
+    { name: 'X (Twitter)', emoji: '𝕏', url: 'https://x.com/bznomad' },
   ];
 
   return (
@@ -30,17 +31,27 @@ export default function Footer() {
             <p className="text-gray-400 mb-4">
               Travel arrangements for digital nomads, remote workers, and digital nomad families.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-4">
               {social.map((item) => (
                 <a
                   key={item.name}
-                  href="#"
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 bg-teal-600/50 rounded-full flex items-center justify-center hover:bg-teal-500 transition-all duration-300 text-lg glow-border"
                   title={item.name}
                 >
                   {item.emoji}
                 </a>
               ))}
+            </div>
+            <div className="flex items-center">
+              <div className="w-16 h-16">
+                <CertificateModal
+                  certificateImage="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fbfa1c41af23d40f2912001c6206fad16?format=webp&width=800"
+                  title="Business Registration Certificate"
+                />
+              </div>
             </div>
           </div>
 
@@ -114,8 +125,18 @@ export default function Footer() {
         {/* Bottom branding */}
         <div className="text-center mt-8 pt-8 border-t border-glow text-xs text-gray-600">
           <p>
-            Affiliated with <span className="text-teal-400 font-semibold">Dreamport</span> and{' '}
-            <span className="text-teal-400 font-semibold">AsapTickets</span>
+            Affiliated with{' '}
+            <a href="https://www.dreamport.me/" target="_blank" rel="noopener noreferrer" className="text-teal-400 font-semibold hover:text-teal-300 transition-colors">
+              Dreamport
+            </a>
+            {', '}
+            <a href="https://www.asaptickets.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 font-semibold hover:text-teal-300 transition-colors">
+              ASAP Tickets
+            </a>
+            {' and '}
+            <a href="https://dyninno.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 font-semibold hover:text-teal-300 transition-colors">
+              Dyninno Group
+            </a>
           </p>
         </div>
       </div>
