@@ -29,11 +29,11 @@ export default function Destinations() {
       rating: 4.8,
     },
     {
-      name: 'Barcelona, Spain',
-      image: '🏖️',
-      description: 'Mediterranean lifestyle with excellent infrastructure and networking opportunities',
-      highlights: ['Lifestyle', 'Beaches', 'Networking'],
-      rating: 4.9,
+      name: 'Granada, Spain',
+      image: '🏰',
+      description: 'Historic Andalusian city with stunning architecture, rich culture, and affordable living',
+      highlights: ['Historic sites', 'Culture', 'Affordable'],
+      rating: 4.8,
     },
     {
       name: 'Himare, Albania',
