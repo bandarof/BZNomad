@@ -88,20 +88,38 @@ export default function About() {
         <div className="bg-dark-800/60 backdrop-blur rounded-3xl p-12 text-center glow-border-lg">
           <h3 className="text-2xl font-bold text-gray-100 mb-8">Our Partners</h3>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border">
-              <div className="text-5xl mb-4">🌐</div>
+            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
+              <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F4d12ebc3b6374c14923d6172fce05334?format=webp&width=200"
+                  alt="Dreamport logo"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
               <h4 className="font-bold text-gray-200 text-lg">Dreamport</h4>
-              <p className="text-gray-400 text-sm mt-2">Global travel network</p>
+              <p className="text-gray-400 text-sm mt-2">Independent Travel Manager Platform</p>
             </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border">
-              <div className="text-5xl mb-4">🎫</div>
-              <h4 className="font-bold text-gray-200 text-lg">AsapTickets</h4>
-              <p className="text-gray-400 text-sm mt-2">Flight & booking services</p>
+            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
+              <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F1989be2eeec044a5ad2489cdbfd55546?format=webp&width=200"
+                  alt="ASAP Tickets logo"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
+              <h4 className="font-bold text-gray-200 text-lg">ASAP Tickets</h4>
+              <p className="text-gray-400 text-sm mt-2">Affordable Airline Tickets & Travel Services</p>
             </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border">
-              <div className="text-5xl mb-4">🌟</div>
-              <h4 className="font-bold text-gray-200 text-lg">BZNomad</h4>
-              <p className="text-gray-400 text-sm mt-2">Nomad-focused travel</p>
+            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
+              <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F4284433f661e484ba4f3088c704a96e6?format=webp&width=200"
+                  alt="Dyninno Group logo"
+                  className="w-full h-full object-contain p-2"
+                />
+              </div>
+              <h4 className="font-bold text-gray-200 text-lg">Dyninno Group</h4>
+              <p className="text-gray-400 text-sm mt-2">Global Travel & Technology Innovation</p>
             </div>
           </div>
         </div>
