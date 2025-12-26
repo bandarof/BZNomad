@@ -8,11 +8,11 @@ export default function Destinations() {
       rating: 4.8,
     },
     {
-      name: 'Lisbon, Portugal',
-      image: '🇵🇹',
-      description: 'European charm with a growing tech scene and vibrant nomad community',
-      highlights: ['Weather', 'Tech scene', 'Food culture'],
-      rating: 4.9,
+      name: 'Jeddah, Saudi Arabia',
+      image: '🏙️',
+      description: 'Modern coastal city with vibrant culture and emerging digital nomad opportunities',
+      highlights: ['Culture', 'Modern infrastructure', 'Beach lifestyle'],
+      rating: 4.8,
     },
     {
       name: 'Chiang Mai, Thailand',
