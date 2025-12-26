@@ -31,17 +31,27 @@ export default function Footer() {
             <p className="text-gray-400 mb-4">
               Travel arrangements for digital nomads, remote workers, and digital nomad families.
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 mb-4">
               {social.map((item) => (
                 <a
                   key={item.name}
-                  href="#"
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 bg-teal-600/50 rounded-full flex items-center justify-center hover:bg-teal-500 transition-all duration-300 text-lg glow-border"
                   title={item.name}
                 >
                   {item.emoji}
                 </a>
               ))}
+            </div>
+            <div className="flex items-center">
+              <div className="w-16 h-16">
+                <CertificateModal
+                  certificateImage="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fbfa1c41af23d40f2912001c6206fad16?format=webp&width=800"
+                  title="Business Registration Certificate"
+                />
+              </div>
             </div>
           </div>
 
