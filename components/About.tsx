@@ -91,7 +91,7 @@ export default function About() {
             <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
               <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F4d12ebc3b6374c14923d6172fce05334?format=webp&width=200"
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fa17ef5ccc2e445d6bd948eaf41faa5b2?format=webp&width=200"
                   alt="Dreamport logo"
                   className="w-full h-full object-contain p-2"
                 />
@@ -102,7 +102,7 @@ export default function About() {
             <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
               <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F1989be2eeec044a5ad2489cdbfd55546?format=webp&width=200"
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F15a3d2a8255f4378be38b5bb8f55ae36?format=webp&width=200"
                   alt="ASAP Tickets logo"
                   className="w-full h-full object-contain p-2"
                 />
@@ -113,7 +113,7 @@ export default function About() {
             <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
               <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F4284433f661e484ba4f3088c704a96e6?format=webp&width=200"
+                  src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fa5952601df0b40cfb08f118817c4d414?format=webp&width=200"
                   alt="Dyninno Group logo"
                   className="w-full h-full object-contain p-2"
                 />
