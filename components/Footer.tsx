@@ -125,8 +125,18 @@ export default function Footer() {
         {/* Bottom branding */}
         <div className="text-center mt-8 pt-8 border-t border-glow text-xs text-gray-600">
           <p>
-            Affiliated with <span className="text-teal-400 font-semibold">Dreamport</span> and{' '}
-            <span className="text-teal-400 font-semibold">AsapTickets</span>
+            Affiliated with{' '}
+            <a href="https://www.dreamport.me/" target="_blank" rel="noopener noreferrer" className="text-teal-400 font-semibold hover:text-teal-300 transition-colors">
+              Dreamport
+            </a>
+            {', '}
+            <a href="https://www.asaptickets.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 font-semibold hover:text-teal-300 transition-colors">
+              ASAP Tickets
+            </a>
+            {' and '}
+            <a href="https://dyninno.com/" target="_blank" rel="noopener noreferrer" className="text-teal-400 font-semibold hover:text-teal-300 transition-colors">
+              Dyninno Group
+            </a>
           </p>
         </div>
       </div>
