@@ -53,8 +53,8 @@ export default function Hero() {
           </span>
 
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-teal-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent animate-slideInDown drop-shadow-lg">
-            Travel the World,<br />
-            Your Way
+            It's not a holiday,<br />
+            it's a lifestyle!
           </h1>
 
           <p className="text-lg md:text-2xl text-gray-200 mb-8 max-w-2xl mx-auto animate-slideInUp leading-relaxed drop-shadow-md">
