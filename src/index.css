@@ -183,6 +183,8 @@ select:focus {
   display: flex;
   width: 600%;
   transition: none;
+  animation: carousel 18s linear infinite;
+  will-change: transform;
 }
 
 .carousel-slide {
@@ -191,6 +193,7 @@ select:focus {
   flex-shrink: 0;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
 
 /* Dark overlay for text visibility */
