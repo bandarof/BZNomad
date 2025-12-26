@@ -31,7 +31,9 @@ export default function About() {
                   <img
                     src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb8a735389ce347da8b5a1f2dad5eadde?format=webp&width=300"
                     alt="Bander Radein - Founder of BZNomad"
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-300 profile-image"
+                    onContextMenu={(e) => e.preventDefault()}
+                    draggable={false}
                   />
                 </div>
               </div>
