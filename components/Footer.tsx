@@ -12,10 +12,10 @@ export default function Footer() {
   ];
 
   const social = [
-    { name: 'Facebook', emoji: '👤' },
-    { name: 'Instagram', emoji: '📷' },
-    { name: 'Twitter', emoji: '𝕏' },
-    { name: 'LinkedIn', emoji: '💼' },
+    { name: 'Instagram', emoji: '📷', url: 'https://instagram.com/bznomad' },
+    { name: 'Facebook', emoji: '👤', url: 'https://facebook.com/bznomad' },
+    { name: 'LinkedIn', emoji: '💼', url: 'https://linkedin.com/company/bznomad' },
+    { name: 'X (Twitter)', emoji: '𝕏', url: 'https://x.com/bznomad' },
   ];
 
   return (
