@@ -90,7 +90,12 @@ export default function About() {
         <div className="bg-dark-800/60 backdrop-blur rounded-3xl p-12 text-center glow-border-lg">
           <h3 className="text-2xl font-bold text-gray-100 mb-8">Our Partners</h3>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
+            <a
+              href="https://www.dreamport.me/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105"
+            >
               <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fa17ef5ccc2e445d6bd948eaf41faa5b2?format=webp&width=200"
@@ -100,8 +105,13 @@ export default function About() {
               </div>
               <h4 className="font-bold text-gray-200 text-lg">Dreamport</h4>
               <p className="text-gray-400 text-sm mt-2">Independent Travel Manager Platform</p>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
+            </a>
+            <a
+              href="https://www.asaptickets.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105"
+            >
               <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F15a3d2a8255f4378be38b5bb8f55ae36?format=webp&width=200"
@@ -111,8 +121,13 @@ export default function About() {
               </div>
               <h4 className="font-bold text-gray-200 text-lg">ASAP Tickets</h4>
               <p className="text-gray-400 text-sm mt-2">Affordable Airline Tickets & Travel Services</p>
-            </div>
-            <div className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105">
+            </a>
+            <a
+              href="https://dyninno.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center justify-center p-6 bg-dark-900 rounded-2xl glow-border hover:shadow-glow-teal transition-all duration-300 hover:scale-105"
+            >
               <div className="h-20 w-20 mb-4 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-md">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fa5952601df0b40cfb08f118817c4d414?format=webp&width=200"
@@ -122,7 +137,7 @@ export default function About() {
               </div>
               <h4 className="font-bold text-gray-200 text-lg">Dyninno Group</h4>
               <p className="text-gray-400 text-sm mt-2">Global Travel & Technology Innovation</p>
-            </div>
+            </a>
           </div>
         </div>
       </div>
