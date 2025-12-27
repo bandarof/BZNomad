@@ -1761,8 +1761,17 @@ export default function Contact() {
               </div>
             </div>
 
+            <TipsAndFAQs
+              tripType={formData.tripType}
+              hotelStars={formData.hotelStars}
+              carCategory={formData.carCategory}
+              hasChildren={formData.passengers.children > 0}
+              hasInfants={formData.passengers.infants > 0}
+              isSideTrip={false}
+            />
+
             <div className="bg-dark-800/60 backdrop-blur rounded-2xl p-8 glow-border-lg">
-              <h3 className="text-xl font-bold text-gray-100 mb-4">Quick FAQ</h3>
+              <h3 className="text-xl font-bold text-gray-100 mb-4">Quick Reference</h3>
               <div className="space-y-3 text-sm text-gray-300">
                 <p>
                   <span className="font-semibold text-teal-300">How long does planning take?</span>
