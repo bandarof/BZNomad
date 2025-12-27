@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import TipsAndFAQs from './TipsAndFAQs';
 
 type TripType = 'one-way' | 'round-trip' | 'multi-city';
 type DateType = 'flexible' | 'fixed';
