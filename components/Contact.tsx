@@ -1820,23 +1820,24 @@ export default function Contact() {
 
             <div className="bg-dark-800/60 backdrop-blur rounded-2xl p-8 glow-border-lg">
               <h4 className="text-xl font-bold text-gray-100 mb-4">Date Flexibility Tips</h4>
-              <div className="space-y-3 text-sm text-teal-100/80">
-                <div className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-0.5">📅</span>
+              <div className="space-y-3 text-sm text-gray-300">
+                <div className="flex items-start gap-3 p-3 bg-dark-700/50 rounded-lg">
+                  <span className="text-lg">📅</span>
                   <div>
-                    <p className="font-medium text-teal-300">Fixed Dates</p>
-                    <p className="text-teal-100/70">Best for specific travel plans with set dates</p>
+                    <p className="font-semibold text-teal-300">Fixed Dates</p>
+                    <p className="text-gray-400 text-xs">Best for specific travel plans with set dates</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-0.5">🔄</span>
+                <div className="flex items-start gap-3 p-3 bg-dark-700/50 rounded-lg">
+                  <span className="text-lg">🔄</span>
                   <div>
-                    <p className="font-medium text-teal-300">Flexible Dates</p>
-                    <p className="text-teal-100/70">Get better prices by allowing date range searches</p>
+                    <p className="font-semibold text-teal-300">Flexible Dates</p>
+                    <p className="text-gray-400 text-xs">Get better prices by allowing date range searches</p>
                   </div>
                 </div>
-                <div className="text-xs text-teal-200/60 mt-2">
-                  <p>Tip: Flexible dates often save 15-30% on flights</p>
+                <div className="text-xs text-gray-400 mt-2 p-3 bg-dark-700/50 rounded-lg border border-teal-400/20">
+                  <p className="text-teal-300 font-semibold">💡 Pro Tip:</p>
+                  <p className="mt-1">Flexible dates often save 15-30% on flights</p>
                 </div>
               </div>
             </div>
