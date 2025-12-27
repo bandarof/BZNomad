@@ -121,8 +121,8 @@ export default function TipsAndFAQs({ tripType, hotelStars, carCategory, hasChil
           <div className="space-y-3">
             {tips.map((tip, index) => (
               <div key={index} className="flex gap-3 p-3 bg-dark-700/50 rounded-lg border border-dark-600 hover:border-teal-500/30 transition-colors">
-                <div className="flex-shrink-0 text-lg leading-none">{tip.split(' ')[0]}</div>
-                <p className="text-sm text-gray-300 leading-relaxed">{tip}</p>
+                <div className="flex-shrink-0 text-lg leading-none">{tip.icon}</div>
+                <p className="text-sm text-gray-300 leading-relaxed">{tip.text}</p>
               </div>
             ))}
           </div>
