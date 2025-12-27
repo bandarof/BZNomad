@@ -2,7 +2,7 @@ export default function AnimatedBackground() {
   return (
     <>
       {/* Animated background orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 bg-dark-950">
         {/* Top left - Teal orb */}
         <div className="absolute -top-40 -left-40 w-96 h-96 bg-teal-500/15 rounded-full mix-blend-screen filter blur-3xl opacity-40 animate-blob"></div>
 
