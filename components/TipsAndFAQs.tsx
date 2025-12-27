@@ -13,40 +13,40 @@ export default function TipsAndFAQs({ tripType, hotelStars, carCategory, hasChil
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
   const getTips = () => {
-    const tips: string[] = [];
+    const tips: Array<{ icon: string; text: string }> = [];
 
     if (tripType === 'round-trip') {
-      tips.push('✈️ Book round-trip flights in advance (2-3 months ahead) to get the best deals');
-      tips.push('📅 Flexible date ranges can save you 15-30% on airfare');
+      tips.push({ icon: '✈️', text: 'Book round-trip flights in advance (2-3 months ahead) to get the best deals' });
+      tips.push({ icon: '📅', text: 'Flexible date ranges can save you 15-30% on airfare' });
     } else if (tripType === 'multi-city') {
-      tips.push('🗺️ Multi-city itineraries are great for exploring multiple countries');
-      tips.push('⏱️ Allow 2-3 days between city changes for travel and adjustment');
+      tips.push({ icon: '🗺️', text: 'Multi-city itineraries are great for exploring multiple countries' });
+      tips.push({ icon: '⏱️', text: 'Allow 2-3 days between city changes for travel and adjustment' });
     }
 
     if (hotelStars !== 'none') {
       if (hotelStars === 'luxury' || hotelStars === '5') {
-        tips.push('🏨 Luxury accommodations often have airport transfers - ask about this');
-        tips.push('💎 Book luxury stays directly with the hotel for better rates than third-party sites');
+        tips.push({ icon: '🏨', text: 'Luxury accommodations often have airport transfers - ask about this' });
+        tips.push({ icon: '💎', text: 'Book luxury stays directly with the hotel for better rates than third-party sites' });
       } else {
-        tips.push('🏨 Read recent reviews from other nomads before booking');
-        tips.push('🌐 Check for workspaces and WiFi speed ratings in hotel reviews');
+        tips.push({ icon: '🏨', text: 'Read recent reviews from other nomads before booking' });
+        tips.push({ icon: '🌐', text: 'Check for workspaces and WiFi speed ratings in hotel reviews' });
       }
     }
 
     if (carCategory !== 'none') {
-      tips.push('🚗 International driving permits are required in many countries');
-      tips.push('💳 Get comprehensive travel insurance that covers rental vehicles');
-      tips.push('⛽ Gas prices vary significantly by country - budget accordingly');
+      tips.push({ icon: '🚗', text: 'International driving permits are required in many countries' });
+      tips.push({ icon: '💳', text: 'Get comprehensive travel insurance that covers rental vehicles' });
+      tips.push({ icon: '⛽', text: 'Gas prices vary significantly by country - budget accordingly' });
     }
 
     if (hasChildren) {
-      tips.push('👶 Children under 12 require car seats in most countries');
-      tips.push('🎫 Many attractions offer family discounts - ask for them');
+      tips.push({ icon: '👶', text: 'Children under 12 require car seats in most countries' });
+      tips.push({ icon: '🎫', text: 'Many attractions offer family discounts - ask for them' });
     }
 
     if (hasInfants) {
-      tips.push('👶 Check airline baggage policies for strollers and car seats');
-      tips.push('🍼 Stock up on familiar baby food and formula before traveling');
+      tips.push({ icon: '👶', text: 'Check airline baggage policies for strollers and car seats' });
+      tips.push({ icon: '🍼', text: 'Stock up on familiar baby food and formula before traveling' });
     }
 
     return tips;
