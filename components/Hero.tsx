@@ -26,19 +26,24 @@ export default function Hero() {
     >
       {/* Background image carousel */}
       <div className="absolute inset-0 overflow-hidden bg-dark-950">
-        {backgroundImages.map((image, index) => (
-          <div
-            key={index}
-            className="carousel-slide absolute inset-0 animate-carouselFade"
-            style={{
-              backgroundImage: `url('${image}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              animationDelay: `${index * (18 / backgroundImages.length)}s`,
-            }}
-            aria-label={`Travel destination ${index + 1}`}
-          />
-        ))}
+        {backgroundImages.length > 0 && backgroundImages.map((image, index) => {
+          const delaySeconds = index * (18 / backgroundImages.length);
+          return (
+            <div
+              key={index}
+              className="absolute inset-0 transition-opacity"
+              style={{
+                backgroundImage: `url('${image}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                animation: `carouselFade 18s ease-in-out infinite`,
+                animationDelay: `${delaySeconds}s`,
+                opacity: 0,
+              }}
+              aria-label={`Travel destination ${index + 1}`}
+            />
+          );
+        })}
 
         {/* Dark overlay for text visibility */}
         <div className="carousel-overlay absolute inset-0 z-10" />
