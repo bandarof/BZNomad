@@ -32,7 +32,7 @@ export default function Footer() {
             <p className="text-gray-400 mb-4">
               Travel arrangements for digital nomads, remote workers, and digital nomad families.
             </p>
-            <div className="flex gap-3 mb-4">
+            <div className="flex gap-3 mb-4" id="social-links">
               {social.map((item) => (
                 <a
                   key={item.name}
@@ -46,10 +46,10 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-            <div className="flex items-center">
-              <div className="w-16 h-16">
+            <div className="mt-4">
+              <div style={{ width: 'calc(5 * 40px + 4 * 12px)' }}>
                 <CertificateModal
-                  certificateImage="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fbfa1c41af23d40f2912001c6206fad16?format=webp&width=800"
+                  certificateImage="https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2Fb5c329e14d004a79a4655a88a29502b9?format=webp&width=800"
                   title="Business Registration Certificate"
                 />
               </div>
