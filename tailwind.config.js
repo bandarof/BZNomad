@@ -105,6 +105,25 @@ module.exports = {
           '0%, 16.66%': { opacity: '1' },
           '25%, 100%': { opacity: '0' },
         },
+        slideDownSlow: {
+          '0%': { transform: 'translateY(-100%)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '90%': { opacity: '1' },
+          '100%': { transform: 'translateY(100vh)', opacity: '0' },
+        },
+        slideAcross: {
+          '0%': { transform: 'translateX(-150%)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '90%': { opacity: '1' },
+          '100%': { transform: 'translateX(150vw)', opacity: '0' },
+        },
+        flyAcross: {
+          '0%': { transform: 'translateX(-150%) translateY(50px)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '45%': { transform: 'translateX(25vw) translateY(-100px)' },
+          '90%': { opacity: '1' },
+          '100%': { transform: 'translateX(150vw) translateY(50px)', opacity: '0' },
+        },
       },
       animation: {
         float: 'float 3s ease-in-out infinite',
@@ -116,6 +135,9 @@ module.exports = {
         glowPulse: 'glowPulse 3s ease-in-out infinite',
         carousel: 'carousel 18s ease-in-out infinite',
         carouselFade: 'carouselFade 18s ease-in-out infinite',
+        slideDownSlow: 'slideDownSlow 8s ease-in infinite',
+        slideAcross: 'slideAcross 12s ease-in-out infinite',
+        flyAcross: 'flyAcross 14s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

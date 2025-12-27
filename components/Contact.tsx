@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import TipsAndFAQs from './TipsAndFAQs';
 
 type TripType = 'one-way' | 'round-trip' | 'multi-city';
 type DateType = 'flexible' | 'fixed';
@@ -299,6 +300,21 @@ export default function Contact() {
     const segment = citySegments.find(s => s.id === segmentId);
     if (!segment) return;
 
+    // Check if there's a next segment
+    const currentSegmentIndex = citySegments.findIndex(s => s.id === segmentId);
+    const nextSegment = currentSegmentIndex !== -1 && currentSegmentIndex < citySegments.length - 1
+      ? citySegments[currentSegmentIndex + 1]
+      : null;
+
+    // If there's a next segment, check if it has a travel date set
+    if (nextSegment) {
+      const nextSegmentHasDate = nextSegment.dateType === 'fixed' ? nextSegment.date : (nextSegment.flexFrom && nextSegment.flexTo);
+      if (!nextSegmentHasDate) {
+        setError('Please enter the travel date for your next leg of travel to schedule side trips for your stay');
+        return;
+      }
+    }
+
     const newSideTrip: SideTrip = {
       id: Date.now(),
       type: 'one-way',
@@ -315,6 +331,7 @@ export default function Contact() {
       passengers: { adults: segment.passengers.adults, children: segment.passengers.children, infants: segment.passengers.infants }
     };
 
+    setError('');
     setCitySegments(citySegments.map(segment =>
       segment.id === segmentId
         ? { ...segment, sideTrips: [...segment.sideTrips, newSideTrip] }
@@ -1760,8 +1777,17 @@ export default function Contact() {
               </div>
             </div>
 
+            <TipsAndFAQs
+              tripType={formData.tripType}
+              hotelStars={formData.hotelStars}
+              carCategory={formData.carCategory}
+              hasChildren={formData.passengers.children > 0}
+              hasInfants={formData.passengers.infants > 0}
+              isSideTrip={false}
+            />
+
             <div className="bg-dark-800/60 backdrop-blur rounded-2xl p-8 glow-border-lg">
-              <h3 className="text-xl font-bold text-gray-100 mb-4">Quick FAQ</h3>
+              <h3 className="text-xl font-bold text-gray-100 mb-4">Quick Reference</h3>
               <div className="space-y-3 text-sm text-gray-300">
                 <p>
                   <span className="font-semibold text-teal-300">How long does planning take?</span>
@@ -1808,25 +1834,26 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-teal-900/20 border border-teal-400/30 backdrop-blur rounded-2xl p-6 glow-border-teal">
-              <h4 className="text-teal-300 font-bold mb-3">Date Flexibility</h4>
-              <div className="space-y-3 text-sm text-teal-100/80">
-                <div className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-0.5">📅</span>
+            <div className="bg-dark-800/60 backdrop-blur rounded-2xl p-8 glow-border-lg">
+              <h4 className="text-xl font-bold text-gray-100 mb-4">Date Flexibility Tips</h4>
+              <div className="space-y-3 text-sm text-gray-300">
+                <div className="flex items-start gap-3 p-3 bg-dark-700/50 rounded-lg">
+                  <span className="text-lg">📅</span>
                   <div>
-                    <p className="font-medium text-teal-300">Fixed Dates</p>
-                    <p className="text-teal-100/70">Best for specific travel plans with set dates</p>
+                    <p className="font-semibold text-teal-300">Fixed Dates</p>
+                    <p className="text-gray-400 text-xs">Best for specific travel plans with set dates</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-teal-400 mt-0.5">🔄</span>
+                <div className="flex items-start gap-3 p-3 bg-dark-700/50 rounded-lg">
+                  <span className="text-lg">🔄</span>
                   <div>
-                    <p className="font-medium text-teal-300">Flexible Dates</p>
-                    <p className="text-teal-100/70">Get better prices by allowing date range searches</p>
+                    <p className="font-semibold text-teal-300">Flexible Dates</p>
+                    <p className="text-gray-400 text-xs">Get better prices by allowing date range searches</p>
                   </div>
                 </div>
-                <div className="text-xs text-teal-200/60 mt-2">
-                  <p>Tip: Flexible dates often save 15-30% on flights</p>
+                <div className="text-xs text-gray-400 mt-2 p-3 bg-dark-700/50 rounded-lg border border-teal-400/20">
+                  <p className="text-teal-300 font-semibold">💡 Pro Tip:</p>
+                  <p className="mt-1">Flexible dates often save 15-30% on flights</p>
                 </div>
               </div>
             </div>
