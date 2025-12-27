@@ -155,10 +155,6 @@ export default function TipsAndFAQs({ tripType, hotelStars, carCategory, hasChil
         </div>
       )}
 
-      <div className="mt-8 p-4 bg-teal-500/10 border border-teal-500/30 rounded-lg">
-        <p className="text-sm text-teal-300 font-semibold mb-2">Need personalized help?</p>
-        <p className="text-xs text-gray-400">Our travel experts at ASAP Tickets are here to help. We can assist with visa applications, travel insurance, and custom itineraries.</p>
-      </div>
     </div>
   );
 }
