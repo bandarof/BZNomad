@@ -136,6 +136,8 @@ module.exports = {
         carousel: 'carousel 18s ease-in-out infinite',
         carouselFade: 'carouselFade 18s ease-in-out infinite',
         slideDownSlow: 'slideDownSlow 8s ease-in infinite',
+        slideAcross: 'slideAcross 12s ease-in-out infinite',
+        flyAcross: 'flyAcross 14s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
