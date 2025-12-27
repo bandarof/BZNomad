@@ -122,6 +122,7 @@ module.exports = {
         glowPulse: 'glowPulse 3s ease-in-out infinite',
         carousel: 'carousel 18s ease-in-out infinite',
         carouselFade: 'carouselFade 18s ease-in-out infinite',
+        slideDownSlow: 'slideDownSlow 8s ease-in infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
