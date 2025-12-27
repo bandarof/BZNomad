@@ -111,6 +111,19 @@ module.exports = {
           '90%': { opacity: '1' },
           '100%': { transform: 'translateY(100vh)', opacity: '0' },
         },
+        slideAcross: {
+          '0%': { transform: 'translateX(-150%)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '90%': { opacity: '1' },
+          '100%': { transform: 'translateX(150vw)', opacity: '0' },
+        },
+        flyAcross: {
+          '0%': { transform: 'translateX(-150%) translateY(50px)', opacity: '0' },
+          '10%': { opacity: '1' },
+          '45%': { transform: 'translateX(25vw) translateY(-100px)' },
+          '90%': { opacity: '1' },
+          '100%': { transform: 'translateX(150vw) translateY(50px)', opacity: '0' },
+        },
       },
       animation: {
         float: 'float 3s ease-in-out infinite',
