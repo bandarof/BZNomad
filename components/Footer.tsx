@@ -16,7 +16,7 @@ export default function Footer() {
     { name: 'Facebook', emoji: '👤', url: 'https://facebook.com/bznomad' },
     { name: 'LinkedIn', emoji: '💼', url: 'https://linkedin.com/company/bznomad' },
     { name: 'X (Twitter)', emoji: '𝕏', url: 'https://x.com/bznomadtravel' },
-    { name: 'YouTube', emoji: '▶️', url: 'https://youtube.com/@bandarof' },
+    { name: 'YouTube', emoji: '▶️', url: 'https://youtube.com/@bznomad' },
   ];
 
   return (
