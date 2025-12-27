@@ -300,6 +300,21 @@ export default function Contact() {
     const segment = citySegments.find(s => s.id === segmentId);
     if (!segment) return;
 
+    // Check if there's a next segment
+    const currentSegmentIndex = citySegments.findIndex(s => s.id === segmentId);
+    const nextSegment = currentSegmentIndex !== -1 && currentSegmentIndex < citySegments.length - 1
+      ? citySegments[currentSegmentIndex + 1]
+      : null;
+
+    // If there's a next segment, check if it has a travel date set
+    if (nextSegment) {
+      const nextSegmentHasDate = nextSegment.dateType === 'fixed' ? nextSegment.date : (nextSegment.flexFrom && nextSegment.flexTo);
+      if (!nextSegmentHasDate) {
+        setError('Please enter the travel date for your next leg of travel to schedule side trips for your stay');
+        return;
+      }
+    }
+
     const newSideTrip: SideTrip = {
       id: Date.now(),
       type: 'one-way',
@@ -316,6 +331,7 @@ export default function Contact() {
       passengers: { adults: segment.passengers.adults, children: segment.passengers.children, infants: segment.passengers.infants }
     };
 
+    setError('');
     setCitySegments(citySegments.map(segment =>
       segment.id === segmentId
         ? { ...segment, sideTrips: [...segment.sideTrips, newSideTrip] }
