@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
+
 export default function Hero() {
-  const backgroundImages = [
+  const backgroundImagesBase = [
     'https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F4d12ebc3b6374c14923d6172fce05334?format=webp&width=1200',
     'https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F1989be2eeec044a5ad2489cdbfd55546?format=webp&width=1200',
     'https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F4284433f661e484ba4f3088c704a96e6?format=webp&width=1200',
@@ -7,6 +9,14 @@ export default function Hero() {
     'https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F80acb8d1515a47968c6c66d7bc58594a?format=webp&width=1200',
     'https://cdn.builder.io/api/v1/image/assets%2F2fcfe1b955134aacad7b3c67770584fe%2F9848c7d47c1b474ca8e5fde1c5dfdb9c?format=webp&width=1200',
   ];
+
+  const [backgroundImages, setBackgroundImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Shuffle array using Fisher-Yates algorithm
+    const shuffled = [...backgroundImagesBase].sort(() => Math.random() - 0.5);
+    setBackgroundImages(shuffled);
+  }, []);
 
   return (
     <section
