@@ -1818,8 +1818,8 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-teal-900/20 border border-teal-400/30 backdrop-blur rounded-2xl p-6 glow-border-teal">
-              <h4 className="text-teal-300 font-bold mb-3">Date Flexibility</h4>
+            <div className="bg-dark-800/60 backdrop-blur rounded-2xl p-8 glow-border-lg">
+              <h4 className="text-xl font-bold text-gray-100 mb-4">Date Flexibility Tips</h4>
               <div className="space-y-3 text-sm text-teal-100/80">
                 <div className="flex items-start gap-2">
                   <span className="text-teal-400 mt-0.5">📅</span>
